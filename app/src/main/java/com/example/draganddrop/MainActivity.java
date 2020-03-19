@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 ImageView imageRectangle = new ImageView(getApplicationContext()); //tworze nowa zmienna typu ImageView
-                imageRectangle.setImageBitmap(createRectangle(2,2)); //ustawiam imageRectangle jako wynik funkcji createRectangle() o wymiarach 2x2 (przykladowe wartosci prostokata)
+                imageRectangle.setImageBitmap(createRectangle(4,4)); //ustawiam imageRectangle jako wynik funkcji createRectangle() o wymiarach 2x2 (przykladowe wartosci prostokata)
                 layout.addView(imageRectangle);//do layout dodaje zmienna imageRectangle
             }
 
@@ -49,19 +50,21 @@ public class MainActivity extends AppCompatActivity {
 
         //tworzymy dwie zmienne typu bitmapa, jedna "merged", druga "toMerge", kazda z nich zawiera obrazek square, co zostalo ustalone wczesniej
         Bitmap merged = drawable.getBitmap(); //tworzy typ Bitmap z typu BitmapDrawable powyzej
-        Bitmap toMegre = merged.copy(merged.getConfig(), true);//kopiuje Bitmape merged do bitmapy toMerge
+        Bitmap toMerge = merged.copy(merged.getConfig(), true);//kopiuje Bitmape merged do bitmapy toMerge
+
+
 
         //sizeX-1 razy laczymy bitmapy sposobem funkcja ktora trzeba napisac ponizej
         for(int i=0; i<sizeX-1; i++){
-            //mergeHorizontally( merged, toMerge);
+            merged = mergeHorizontally( merged, toMerge);
         }
 
         //po wykonaniu tej petli powinnismy miec rzadek o wymiarze x
-        toMegre = merged.copy(merged.getConfig(), true); //kopiujemy ponownie merged do "toMerge"
+        toMerge = merged.copy(merged.getConfig(), true); //kopiujemy ponownie merged do "toMerge"
 
         //sizeY-1 razy laczymy bitmapy
         for(int i=0; i<sizeY-1; i++){
-            //mergeVertically(merged, toMerge);
+            merged = mergeVertically(merged, toMerge);
         }
 
         //otrzymujemy bitmape zlozona z kwadratow o wymiarze x na y ktora mozemy zwrocic w return :)
@@ -69,19 +72,40 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    //todo:
-    //funkcja merge horizontaly: thread z stackOverflow jest w pliku TODO "funkcja na laczenie bitmap"
+
+    //funkcja zaklada, ze obie bitmapy maja te sama wysokosc
     public Bitmap mergeHorizontally( Bitmap a, Bitmap b){
         Bitmap ab = null;
 
-        //todo
+        int width, height = 0;
+
+        width = a.getWidth() + b.getWidth();
+        height = a.getHeight();
+
+        ab = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas mergedImages = new Canvas(ab);
+
+        mergedImages.drawBitmap(a, 0f, 0f, null);
+        mergedImages.drawBitmap(b, a.getWidth(), 0f, null);
 
         return ab;
     }
-    public Bitmap mergeHVertically( Bitmap a, Bitmap b){
+
+    public Bitmap mergeVertically( Bitmap a, Bitmap b){
         Bitmap ab = null;
 
-        //todo
+        int width, height = 0;
+
+        width = a.getWidth() ;
+        height = a.getHeight() + b.getHeight();
+
+        ab = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas mergedImages = new Canvas(ab);
+
+        mergedImages.drawBitmap(a, 0f, 0f, null);
+        mergedImages.drawBitmap(b, 0f, a.getHeight(), null);
 
         return ab;
     }
