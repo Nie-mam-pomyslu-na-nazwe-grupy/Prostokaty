@@ -6,7 +6,7 @@ import android.widget.ImageView;
 public class Rectangle extends ImageView {
     public int xCoord;
     public int yCoord;
-    public int dimX;
+    public int dimX; //ile kratek zajmuje
     public int dimY;
     public int grid;
     public boolean canMove = true;

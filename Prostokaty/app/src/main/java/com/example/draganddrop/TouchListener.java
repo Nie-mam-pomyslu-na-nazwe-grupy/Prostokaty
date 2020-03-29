@@ -22,33 +22,51 @@ public class TouchListener implements View.OnTouchListener{
             return true;
         }
 
+        boolean moved=false;
+
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+
+        //lParams.addRule(RelativeLayout.CENTER_HORIZONTAL,0);/
+        //lParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
+
+
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 xDelta = x - lParams.leftMargin;
                 yDelta = y - lParams.topMargin;
                 rect.bringToFront();
                 break;
+
+
             case MotionEvent.ACTION_MOVE:
-                lParams.leftMargin = (int) (x - xDelta);
-                lParams.topMargin = (int) (y - yDelta);
-                view.setLayoutParams(lParams);
-                //todo: przeniesc snap to grid z action up do move, niech klocek bedzie szary podczas action move
-                break;
-            case MotionEvent.ACTION_UP:
-                //dodać if(jest w zakresie planszy)
+                //xDiff i yDiff mozna uzyc do obliczenia wspolrzednych klocka na planszy.
                 int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
                 int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
 
-                //todo: zrobić z if'a bardziej uniwersalny if(szczegoly w komentarzach)
-                if( yDiff >= MainActivity.startBoard && yDiff <= MainActivity.startBoard + 27*rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
-                && xDiff >= MainActivity.topBoard + 5*rect.grid && xDiff <= MainActivity.topBoard + rect.grid*21 ){//5=rozmiarem prostokata+1, 21= PlanszaX+1
+                if( yDiff >= MainActivity.startBoard && yDiff <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2)*rect.grid
+                        && xDiff >= MainActivity.topBoard + (rect.dimX)*rect.grid && xDiff <= MainActivity.topBoard + rect.grid*(MainActivity.BdimX) ){
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff;
                 }
+                else //jesli ruszamy nim poza plansza to nie snapuje do siatki
+                {
+                    lParams.leftMargin = (int) (x - xDelta);
+                    lParams.topMargin = (int) (y - yDelta);
+                }
+
+                rect.setAlpha(0.7f);//zmienia przezroczystosc klocka podczas ruszania nim
+                view.setLayoutParams(lParams);
+                break;
+            case MotionEvent.ACTION_UP:
+
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= MainActivity.startBoard && lParams.topMargin <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2) * rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= MainActivity.topBoard + (rect.dimX) * rect.grid && lParams.leftMargin <= MainActivity.topBoard + rect.grid * (MainActivity.BdimX)) {//5=rozmiarem prostokata+1, 21= PlanszaX+1
+                    rect.canMove = false;
+                    rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
+                }
+
                 rect.setLayoutParams(lParams);
-                    //rect.canMove = false;//odkomentowac jak wszystko bedzie dzialalo = blokuje dalsze poruszanie
-                    //sendViewToBack(rect);//nie działa, bo funkcja jest w main a nie tutaj
+                //sendViewToBack(rect);//nie działa, bo funkcja jest w main a nie tutaj
 
                 break;
         }

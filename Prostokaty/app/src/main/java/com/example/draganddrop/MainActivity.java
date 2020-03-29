@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
     public static int topBoard; //field którego użyjemy w touch listener, poczatek planszy
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
+    public static int BdimX = 20;
+    public static int BdimY = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
-        ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
+        final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
 
 
         imageSquare.post(new Runnable() {
             @Override
             public void run() {
+                //imageSquare.setVisibility(View.invisible);
+               TouchListener touchListener = new TouchListener();
 
-                TouchListener touchListener = new TouchListener();
-
+               RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                //params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 //przygotowanie imageBoard
-                int BdimX = 20;
-                int BdimY = 30;
 
                 //pobieranie obrazu z ImageView
                 ImageView imageBoard = findViewById(R.id.imageBoard);
@@ -59,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
                 //przygotowanie pierwszego (jednego, przykładowego) prostokąta:
                 Rectangle r = new Rectangle(getApplicationContext());
-                r.setImageBitmap( createRectangle(4, 4, gridSize));
+                int SDimx = 4;
+                int SDimy = 4;
+                r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
+
+                r.dimX = SDimx;
+                r.dimY = SDimy;
                 r.grid = gridSize;
                 //todo: ustawić wymiary prostokąta xCord i yCord i ja zaimplementowac
                 //todo: ustawic ladna pozycje startowa prostokata
@@ -69,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 for(Rectangle piece : rects){
                     piece.setOnTouchListener(touchListener);
                     layout.addView(piece);
+                    piece.setLayoutParams(params);
+
                 }
 
                 //todo: stworzyc funkcje round()
