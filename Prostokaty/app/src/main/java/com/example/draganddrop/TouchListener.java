@@ -9,7 +9,7 @@ import static java.lang.StrictMath.pow;
 import static java.lang.StrictMath.sqrt;
 
 public class TouchListener implements View.OnTouchListener{
-    private float xDelta;
+    private float xDelta; // początek widoku?
     private float yDelta;
 
     @Override
@@ -46,7 +46,7 @@ public class TouchListener implements View.OnTouchListener{
                 if( yDiff >= MainActivity.startBoard && yDiff <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2)*rect.grid
                         && xDiff >= MainActivity.topBoard + (rect.dimX)*rect.grid && xDiff <= MainActivity.topBoard + rect.grid*(MainActivity.BdimX) ){
                     lParams.topMargin = yDiff;
-                    lParams.leftMargin = xDiff;
+                    lParams.leftMargin = xDiff; //pozycja w którym jest palec
                 }
                 else //jesli ruszamy nim poza plansza to nie snapuje do siatki
                 {
