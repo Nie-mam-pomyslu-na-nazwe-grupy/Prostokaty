@@ -32,6 +32,7 @@ public class TouchListener implements View.OnTouchListener{
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
+                //xDelta i yDelta to pozycje w ktorych znajduje sie palec podczas podnoszenia klocka.
                 xDelta = x - lParams.leftMargin;
                 yDelta = y - lParams.topMargin;
                 rect.bringToFront();
@@ -39,12 +40,12 @@ public class TouchListener implements View.OnTouchListener{
 
 
             case MotionEvent.ACTION_MOVE:
-                //xDiff i yDiff mozna uzyc do obliczenia wspolrzednych klocka na planszy.
+                //ustalenie nowych parametrow
                 int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
                 int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
 
-                if( yDiff >= MainActivity.startBoard && yDiff <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2)*rect.grid
-                        && xDiff >= MainActivity.topBoard + (rect.dimX)*rect.grid && xDiff <= MainActivity.topBoard + rect.grid*(MainActivity.BdimX) ){
+                if( yDiff >= MainActivity.topBoard + ((rect.dimY+1) / 2 ) *rect.grid && yDiff <= MainActivity.topBoard + (MainActivity.BdimY- (rect.dimY/2) )*rect.grid
+                        && xDiff >= MainActivity.startBoard + ((rect.dimX/2  )+1)*rect.grid && xDiff <= MainActivity.startBoard + rect.grid*(MainActivity.BdimX  )  ){
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff;
                 }
@@ -59,7 +60,7 @@ public class TouchListener implements View.OnTouchListener{
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= MainActivity.startBoard && lParams.topMargin <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2) * rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= MainActivity.topBoard + (rect.dimY - 2)*rect.grid && lParams.topMargin <= MainActivity.topBoard + (MainActivity.BdimY-rect.dimY+2) * rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
                         && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= MainActivity.topBoard + (rect.dimX) * rect.grid && lParams.leftMargin <= MainActivity.topBoard + rect.grid * (MainActivity.BdimX)) {//5=rozmiarem prostokata+1, 21= PlanszaX+1
                     rect.canMove = false;
                     rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza

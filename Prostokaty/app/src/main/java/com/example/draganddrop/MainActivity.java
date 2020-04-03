@@ -34,17 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
         final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
+        imageSquare.setImageResource(R.drawable.square);
 
 
         imageSquare.post(new Runnable() {
             @Override
             public void run() {
-                //imageSquare.setVisibility(View.invisible);
                TouchListener touchListener = new TouchListener();
-
-               RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                //params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+               RelativeLayout.LayoutParams params;
                 //przygotowanie imageBoard
 
                 //pobieranie obrazu z ImageView
@@ -65,19 +62,20 @@ public class MainActivity extends AppCompatActivity {
                 Rectangle r = new Rectangle(getApplicationContext());
                 int SDimx = 4;
                 int SDimy = 4;
-                r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
-
                 r.dimX = SDimx;
                 r.dimY = SDimy;
                 r.grid = gridSize;
-                //todo: ustawić wymiary prostokąta xCord i yCord i ja zaimplementowac
-                //todo: ustawic ladna pozycje startowa prostokata
+                r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
+
                 rects.add(r);
 
                 //pętla dodająca do widoku kazdy prostokat w tablicy prostokatow
                 for(Rectangle piece : rects){
                     piece.setOnTouchListener(touchListener);
                     layout.addView(piece);
+                    params = (RelativeLayout.LayoutParams)piece.getLayoutParams();
+                    params.leftMargin = 400;
+                    params.topMargin = 1400;
                     piece.setLayoutParams(params);
 
                 }
