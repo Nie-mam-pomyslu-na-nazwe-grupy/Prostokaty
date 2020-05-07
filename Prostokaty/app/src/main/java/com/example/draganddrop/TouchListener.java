@@ -44,6 +44,7 @@ public class TouchListener implements View.OnTouchListener{
                 int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
                 int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
 
+                //text.setText(xDiff + " " + yDiff);
                 if( yDiff >= MainActivity.topBoard + ((rect.dimY+1) / 2 ) *rect.grid && yDiff <= MainActivity.topBoard + (MainActivity.BdimY- (rect.dimY/2) )*rect.grid
                         && xDiff >= MainActivity.startBoard + ((rect.dimX/2  )+1)*rect.grid && xDiff <= MainActivity.startBoard + rect.grid*(MainActivity.BdimX  )  ){
                     lParams.topMargin = yDiff;

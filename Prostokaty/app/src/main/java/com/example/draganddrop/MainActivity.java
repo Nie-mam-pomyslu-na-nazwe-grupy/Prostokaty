@@ -57,36 +57,42 @@ public class MainActivity extends AppCompatActivity {
                 topBoard = topOfBoard;
                 int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
 
+                //runda gry:
+                //while(true)
+                for(int i=0; i<1; i++)
+                {
+                    Rectangle r = new Rectangle(getApplicationContext());
+                    int SDimx = roll();
+                    int SDimy = roll();
+                    r.dimX = SDimx;
+                    r.dimY = SDimy;
+                    r.grid = gridSize;
+                    r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
 
-                //przygotowanie pierwszego (jednego, przykładowego) prostokąta:
-                Rectangle r = new Rectangle(getApplicationContext());
-                int SDimx = 4;
-                int SDimy = 4;
-                r.dimX = SDimx;
-                r.dimY = SDimy;
-                r.grid = gridSize;
-                r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
+                    rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
-                rects.add(r);
-
-                //pętla dodająca do widoku kazdy prostokat w tablicy prostokatow
-                for(Rectangle piece : rects){
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
-                    params = (RelativeLayout.LayoutParams)piece.getLayoutParams();
+                    r.setOnTouchListener(touchListener);
+                    layout.addView(r);
+                    params = (RelativeLayout.LayoutParams)r.getLayoutParams();
                     params.leftMargin = 400;
                     params.topMargin = 1400;
-                    piece.setLayoutParams(params);
+                    r.setLayoutParams(params);
+
+                    //PROBLEM 1
 
                 }
 
-                //todo: stworzyc funkcje round()
 
 
             }
 
         });
 
+    }
+
+    private int roll()
+    {//losowanie 1 kosci
+        return 4;
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
