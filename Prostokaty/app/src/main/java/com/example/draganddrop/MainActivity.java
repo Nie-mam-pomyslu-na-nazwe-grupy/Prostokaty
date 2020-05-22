@@ -13,23 +13,30 @@ import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
     public static int topBoard; //field którego użyjemy w touch listener, poczatek planszy
+    private static final Random RANDOM = new Random();
+    private ImageView imageViewDie1, imageViewDie2;
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
     public static int BdimX = 20;
     public static int BdimY = 30;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
+        imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
@@ -64,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
                     Rectangle r = new Rectangle(getApplicationContext());
                     int SDimx = roll();//TUTAJ
                     int SDimy = roll();//TUTAJ
+
+                    //na podstawie wylosowanej liczby ustawia obraz kostki
+                    int res1 = getResources().getIdentifier("dice" + SDimx, "drawable", "com.example.draganddrop");
+                    int res2 = getResources().getIdentifier("dice" + SDimy, "drawable", "com.example.draganddrop");
+
+                    imageViewDie1.setImageResource(res1);
+                    imageViewDie2.setImageResource(res2);
+
                     r.dimX = SDimx;
                     r.dimY = SDimy;
                     r.grid = gridSize;
@@ -80,19 +95,17 @@ public class MainActivity extends AppCompatActivity {
 
                     //PROBLEM 1
 
-                }
+                }//koniec for
 
+            }//public void run
 
+        });//imagesquare post
 
-            }
-
-        });
-
-    }
+    }//void oncreate
 
     private int roll()
     {//losowanie 1 kosci
-        return 2;
+        return RANDOM.nextInt(6) + 1;
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
