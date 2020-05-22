@@ -1,5 +1,6 @@
 package com.example.draganddrop;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -44,9 +45,10 @@ public class TouchListener implements View.OnTouchListener{
                 int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
                 int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
 
-                //text.setText(xDiff + " " + yDiff);
-                if( yDiff >= MainActivity.topBoard + ((rect.dimY+1) / 2 ) *rect.grid && yDiff <= MainActivity.topBoard + (MainActivity.BdimY- (rect.dimY/2) )*rect.grid
-                        && xDiff >= MainActivity.startBoard + ((rect.dimX/2  )+1)*rect.grid && xDiff <= MainActivity.startBoard + rect.grid*(MainActivity.BdimX  )  ){
+                Log.d("",xDiff + " " + yDiff + " "+  rect.dimX );
+                if( yDiff >= 80 && yDiff <= 1280 - ( rect.dimY * rect.grid)
+                        && xDiff >= 160 && xDiff <= 960 - (rect.dimX * rect.grid)  ) {
+
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff;
                 }
@@ -61,14 +63,14 @@ public class TouchListener implements View.OnTouchListener{
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= MainActivity.topBoard + (rect.dimY - 2)*rect.grid && lParams.topMargin <= MainActivity.topBoard + (MainActivity.BdimY-rect.dimY+2) * rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
-                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= MainActivity.topBoard + (rect.dimX) * rect.grid && lParams.leftMargin <= MainActivity.topBoard + rect.grid * (MainActivity.BdimX)) {//5=rozmiarem prostokata+1, 21= PlanszaX+1
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= 80 && lParams.topMargin <= 1280 - ( rect.dimY * rect.grid)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= 160 && lParams.leftMargin <=  960 - (rect.dimX * rect.grid)  ) {
                     rect.canMove = false;
                     rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
                 }
 
                 rect.setLayoutParams(lParams);
-                //sendViewToBack(rect);//nie działa, bo funkcja jest w main a nie tutaj
+
 
                 break;
         }

@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0; i<1; i++)
                 {
                     Rectangle r = new Rectangle(getApplicationContext());
-                    int SDimx = roll();
-                    int SDimy = roll();
+                    int SDimx = roll();//TUTAJ
+                    int SDimy = roll();//TUTAJ
                     r.dimX = SDimx;
                     r.dimY = SDimy;
                     r.grid = gridSize;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int roll()
     {//losowanie 1 kosci
-        return 4;
+        return 2;
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
@@ -105,10 +105,16 @@ public class MainActivity extends AppCompatActivity {
         ImageView squareImage = findViewById(R.id.imageViewSquare); //pobieram z activity_main obrazek z id imageViewSquare
         BitmapDrawable drawable = (BitmapDrawable) squareImage.getDrawable(); //pobiera obraz kwadratu do zmiennej typu BitmapDrawable
 
+
         //tworzymy dwie zmienne typu bitmapa, jedna "merged", druga "toMerge", kazda z nich zawiera obrazek square, co zostalo ustalone wczesniej
         Bitmap merged = drawable.getBitmap(); //tworzy typ Bitmap z typu BitmapDrawable powyzej
         Bitmap resized = Bitmap.createScaledBitmap(merged, gridSize, gridSize, true);
         merged = resized;
+
+        if( sizeX == 1 && sizeY == 1)
+        {
+            return merged ;
+        }
 
         Bitmap toMerge = merged.copy(merged.getConfig(), true);//kopiuje Bitmape merged do bitmapy toMerge
 
