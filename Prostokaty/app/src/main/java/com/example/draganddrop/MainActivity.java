@@ -1,7 +1,6 @@
 package com.example.draganddrop;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,11 +8,9 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Button rollButton;
     private TextView rollText;
 
+    int turaGracza = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
-
+        //todo
+        //spytac sie o ilosc graczy przed gra
+        final Engine engine = new Engine(20, 30, 2);
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
         final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
-        imageSquare.setImageResource(R.drawable.square);
+        imageSquare.setImageResource(R.drawable.square1);
 
 
         imageSquare.post(new Runnable() {
@@ -74,10 +75,11 @@ public class MainActivity extends AppCompatActivity {
                 rollButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //if sprawdza czy poprzedni klocek zostal polozony na plansze
                         if(  rects.size() == 0 || rects.get(rects.size()-1).canMove == false) {
                             rollText.setText((" "));
                             RelativeLayout.LayoutParams params;
+
 
                             Rectangle r = new Rectangle(getApplicationContext());
                             //losowanie wymiaru prostokąta
@@ -95,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                             r.dimX = SDimx;
                             r.dimY = SDimy;
                             r.grid = gridSize;
-                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize));
+
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
@@ -105,8 +108,13 @@ public class MainActivity extends AppCompatActivity {
                             params.leftMargin = 400;
                             params.topMargin = 1400;
                             r.setLayoutParams(params);
-
+                            turaGracza++;
+                            if(turaGracza > engine.getNumberOfGamers())
+                            {
+                                turaGracza = 1;
+                            }
                         }//if( rects.get(rects.size()).canMove == false )
+                        //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
                         else {rollText.setText(("There already is rectangle to be placed."));}
                     }//OnClick
                 });//OnClickListener
@@ -124,13 +132,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
-    private Bitmap createRectangle(int x, int y, int gridSize) {
+    private Bitmap createRectangle(int x, int y, int gridSize, int gracz) {
         //x i y oraz sizeX i sizeY to wymiar prostokata ktory chcemy stworzyc z malych kwadratow
         int sizeX = x;
         int sizeY = y;
 
 
-        ImageView squareImage = findViewById(R.id.imageViewSquare); //pobieram z activity_main obrazek z id imageViewSquare
+        ImageView squareImage = findViewById(R.id.imageViewSquare);
+
+
+        int res = getResources().getIdentifier("square"+gracz, "drawable", "com.example.draganddrop");
+        squareImage.setImageResource(res);
+         //pobieram z activity_main obrazek z id imageViewSquare
         BitmapDrawable drawable = (BitmapDrawable) squareImage.getDrawable(); //pobiera obraz kwadratu do zmiennej typu BitmapDrawable
 
 

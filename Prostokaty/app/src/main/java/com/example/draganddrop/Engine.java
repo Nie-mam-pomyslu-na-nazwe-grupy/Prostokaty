@@ -78,6 +78,7 @@ public class Engine {
         // koniec konstruktora
     }
 
+
     public boolean canPlace(int x, int y, Brick B)
     {
         //czy się mieści
@@ -233,5 +234,10 @@ public class Engine {
                 this.boardMain[tmpX+i][tmpY+j] = B.getBrickColor();
             }
         }
+    }
+
+    public int getNumberOfGamers()
+    {
+        return numberOfGamers;
     }
 }
