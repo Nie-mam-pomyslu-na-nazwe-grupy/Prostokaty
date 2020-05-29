@@ -1,5 +1,6 @@
 package com.example.draganddrop;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -32,6 +33,7 @@ public class TouchListener implements View.OnTouchListener{
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
+                //xDelta i yDelta to pozycje w ktorych znajduje sie palec podczas podnoszenia klocka.
                 xDelta = x - lParams.leftMargin;
                 yDelta = y - lParams.topMargin;
                 rect.bringToFront();
@@ -39,12 +41,14 @@ public class TouchListener implements View.OnTouchListener{
 
 
             case MotionEvent.ACTION_MOVE:
-                //xDiff i yDiff mozna uzyc do obliczenia wspolrzednych klocka na planszy.
-                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
-                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
+                //ustalenie nowych parametrow
+                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid -10; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
+                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid -10;
 
-                if( yDiff >= MainActivity.startBoard && yDiff <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2)*rect.grid
-                        && xDiff >= MainActivity.topBoard + (rect.dimX)*rect.grid && xDiff <= MainActivity.topBoard + rect.grid*(MainActivity.BdimX) ){
+                Log.d("",xDiff + " " + yDiff + " "+  rect.dimX );
+                if( yDiff >= 70 && yDiff <= 1280 - ( rect.dimY * rect.grid)
+                        && xDiff >= 150 && xDiff <= 960 - (rect.dimX * rect.grid)  ) {
+
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff; //pozycja w którym jest palec
                 }
@@ -59,14 +63,14 @@ public class TouchListener implements View.OnTouchListener{
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= MainActivity.startBoard && lParams.topMargin <= MainActivity.startBoard + (MainActivity.BdimY-rect.dimY+2) * rect.grid //27 = PlanszaY-RozmiarKlocka+1 (rozmiar klocka nie wiem czy x czy y)
-                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= MainActivity.topBoard + (rect.dimX) * rect.grid && lParams.leftMargin <= MainActivity.topBoard + rect.grid * (MainActivity.BdimX)) {//5=rozmiarem prostokata+1, 21= PlanszaX+1
+
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= 70 && lParams.topMargin <= 1280 - ( rect.dimY * rect.grid)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= 150 && lParams.leftMargin <=  960 - (rect.dimX * rect.grid)  ) {
                     rect.canMove = false;
                     rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
                 }
 
                 rect.setLayoutParams(lParams);
-                //sendViewToBack(rect);//nie działa, bo funkcja jest w main a nie tutaj
 
                 break;
         }
