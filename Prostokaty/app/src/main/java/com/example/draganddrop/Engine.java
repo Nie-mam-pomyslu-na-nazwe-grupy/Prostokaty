@@ -31,7 +31,6 @@ public class Engine {
         for(int i = 0; i<this.numberOfGamers; i++)
             player[i] = new Player();
 
-        //System.out.print(player);
 
         // przypisanie rogu do gracza
         for(int i=0; i<this.numberOfGamers; i++)
@@ -81,15 +80,11 @@ public class Engine {
     public boolean canPlace(int x, int y, Brick B)
     {
         //czy się mieści
-        System.out.println("przed fit");
         if(!cFit(x,y,B))return false;
         //czy nie ma nic pod klockiem
-        System.out.println("przed colide");
         if(!cColide(x,y,B))return false;
         //czy się styka z polami gracza
-        System.out.println("przed allies");
         if(!cAllies(x,y,B))return false;
-        System.out.println("za allies");
         return true;
     }
     private boolean cFit(int x, int y, Brick B)
@@ -129,7 +124,6 @@ public class Engine {
         {
             for(int j = 0; j<brickY; j++)
             {
-                System.out.println("colide " + i + " " + j);
                 if(this.boardMain[tmpX+i][tmpY+j] != 0)return false;
             }
         }
@@ -229,7 +223,6 @@ public class Engine {
         {
             for(int j = 0; j<brickY; j++)
             {
-                //System.out.println((x+i) + " " + (y+j));
                 this.boardMain[tmpX+i][tmpY+j] = B.getBrickColor();
             }
         }
