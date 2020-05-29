@@ -42,12 +42,12 @@ public class TouchListener implements View.OnTouchListener{
 
             case MotionEvent.ACTION_MOVE:
                 //ustalenie nowych parametrow
-                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
-                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid;
+                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid -10; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
+                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid -10;
 
                 Log.d("",xDiff + " " + yDiff + " "+  rect.dimX );
-                if( yDiff >= 80 && yDiff <= 1280 - ( rect.dimY * rect.grid)
-                        && xDiff >= 160 && xDiff <= 960 - (rect.dimX * rect.grid)  ) {
+                if( yDiff >= 70 && yDiff <= 1280 - ( rect.dimY * rect.grid)
+                        && xDiff >= 150 && xDiff <= 960 - (rect.dimX * rect.grid)  ) {
 
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff;
@@ -63,14 +63,14 @@ public class TouchListener implements View.OnTouchListener{
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= 80 && lParams.topMargin <= 1280 - ( rect.dimY * rect.grid)
-                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= 160 && lParams.leftMargin <=  960 - (rect.dimX * rect.grid)  ) {
+
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= 70 && lParams.topMargin <= 1280 - ( rect.dimY * rect.grid)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= 150 && lParams.leftMargin <=  960 - (rect.dimX * rect.grid)  ) {
                     rect.canMove = false;
                     rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
                 }
 
                 rect.setLayoutParams(lParams);
-
 
                 break;
         }

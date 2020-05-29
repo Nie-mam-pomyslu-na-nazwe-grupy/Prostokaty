@@ -10,12 +10,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,14 +31,17 @@ public class MainActivity extends AppCompatActivity {
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
     public static int BdimX = 20;
     public static int BdimY = 30;
-
+    private Button rollButton;
+    private TextView rollText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
+
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
@@ -47,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         imageSquare.post(new Runnable() {
             @Override
             public void run() {
-               TouchListener touchListener = new TouchListener();
-               RelativeLayout.LayoutParams params;
+               final TouchListener touchListener = new TouchListener();
+
                 //przygotowanie imageBoard
 
                 //pobieranie obrazu z ImageView
@@ -62,46 +67,56 @@ public class MainActivity extends AppCompatActivity {
                 startBoard = startOfBoard;
                 int topOfBoard = dimensions[1];
                 topBoard = topOfBoard;
-                int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
-
+                final int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
                 //runda gry:
-                //while(true)
-                for(int i=0; i<1; i++)
-                {
-                    Rectangle r = new Rectangle(getApplicationContext());
-                    int SDimx = roll();//TUTAJ
-                    int SDimy = roll();//TUTAJ
+                rollText = (TextView) findViewById(R.id.rollText);
+                rollButton = (Button) findViewById(R.id.rollBbutton);
+                rollButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    //na podstawie wylosowanej liczby ustawia obraz kostki
-                    int res1 = getResources().getIdentifier("dice" + SDimx, "drawable", "com.example.draganddrop");
-                    int res2 = getResources().getIdentifier("dice" + SDimy, "drawable", "com.example.draganddrop");
+                        if(  rects.size() == 0 || rects.get(rects.size()-1).canMove == false) {
+                            rollText.setText((" "));
+                            RelativeLayout.LayoutParams params;
 
-                    imageViewDie1.setImageResource(res1);
-                    imageViewDie2.setImageResource(res2);
+                            Rectangle r = new Rectangle(getApplicationContext());
+                            //losowanie wymiaru prostokąta
+                            int SDimx = roll();
+                            int SDimy = roll();
 
-                    r.dimX = SDimx;
-                    r.dimY = SDimy;
-                    r.grid = gridSize;
-                    r.setImageBitmap( createRectangle(SDimx, SDimy, gridSize));
+                            //na podstawie wylosowanej liczby ustawia obraz kostki
+                            int res1 = getResources().getIdentifier("dice" + SDimx, "drawable", "com.example.draganddrop");
+                            int res2 = getResources().getIdentifier("dice" + SDimy, "drawable", "com.example.draganddrop");
 
-                    rects.add(r);//dodawanie prostokata do tablicy prostokatow
+                            imageViewDie1.setImageResource(res1);
+                            imageViewDie2.setImageResource(res2);
 
-                    r.setOnTouchListener(touchListener);
-                    layout.addView(r);
-                    params = (RelativeLayout.LayoutParams)r.getLayoutParams();
-                    params.leftMargin = 400;
-                    params.topMargin = 1400;
-                    r.setLayoutParams(params);
+                            //ustawia pola prostokata na jego dane
+                            r.dimX = SDimx;
+                            r.dimY = SDimy;
+                            r.grid = gridSize;
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize));
 
-                    //PROBLEM 1
+                            rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
-                }//koniec for
+                            r.setOnTouchListener(touchListener);
+                            layout.addView(r);
+                            params = (RelativeLayout.LayoutParams) r.getLayoutParams();
+                            params.leftMargin = 400;
+                            params.topMargin = 1400;
+                            r.setLayoutParams(params);
+
+                        }//if( rects.get(rects.size()).canMove == false )
+                        else {rollText.setText(("There already is rectangle to be placed."));}
+                    }//OnClick
+                });//OnClickListener
 
             }//public void run
 
         });//imagesquare post
 
     }//void oncreate
+
 
     private int roll()
     {//losowanie 1 kosci
@@ -126,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         if( sizeX == 1 && sizeY == 1)
         {
-            return merged ;
+            return Bitmap.createScaledBitmap(merged, 17, 17 , true);
         }
 
         Bitmap toMerge = merged.copy(merged.getConfig(), true);//kopiuje Bitmape merged do bitmapy toMerge
