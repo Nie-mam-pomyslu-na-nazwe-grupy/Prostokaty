@@ -3,6 +3,7 @@ package com.example.draganddrop;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     public static int BdimX = 20;
     public static int BdimY = 30;
     private Button rollButton;
+    private ImageButton imageButton;
     private TextView rollText;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
+        imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
 
 
 
@@ -48,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
         final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
         imageSquare.setImageResource(R.drawable.square);
 
+        //pozwala przejść do innej karty
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMenu();
+            }
+        });
 
         imageSquare.post(new Runnable() {
             @Override
@@ -254,6 +266,11 @@ public class MainActivity extends AppCompatActivity {
             parent.removeView(child);
             parent.addView(child, 0);
         }
+    }
+
+    public void openMenu() { //przechodzi do menu
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 }
 
