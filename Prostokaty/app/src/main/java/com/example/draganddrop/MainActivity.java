@@ -44,14 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
-<<<<<<< HEAD
+
         //todo
         //spytac sie o ilosc graczy przed gra
         final Engine engine = new Engine(20, 30, 2);
-=======
-        imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
 
->>>>>>> e0b986226c1bd2fc7bca81ece7093d2b725ba2ab
+        imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
@@ -153,12 +151,11 @@ public class MainActivity extends AppCompatActivity {
         int sizeX = x;
         int sizeY = y;
 
-
+        //ustawia odpowiedni kolor kwadrata w zaleznosci od aktywnego gracza
         ImageView squareImage = findViewById(R.id.imageViewSquare);
-
-
         int res = getResources().getIdentifier("square"+gracz, "drawable", "com.example.draganddrop");
         squareImage.setImageResource(res);
+
          //pobieram z activity_main obrazek z id imageViewSquare
         BitmapDrawable drawable = (BitmapDrawable) squareImage.getDrawable(); //pobiera obraz kwadratu do zmiennej typu BitmapDrawable
 
