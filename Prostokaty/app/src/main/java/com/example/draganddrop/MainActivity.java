@@ -26,6 +26,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
+    ArrayList<Brick> bricks = new ArrayList<Brick>();
     private static final Random RANDOM = new Random();
     private ImageView imageViewDie1, imageViewDie2;
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
@@ -96,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                             rollText.setText((" "));
                             RelativeLayout.LayoutParams params;
 
-
                             Rectangle r = new Rectangle(getApplicationContext());
                             //losowanie wymiaru prostokąta
                             int SDimx = roll();
@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
+                            //Brick b = new Brick(SDimx, SDimy, turaGracza);
+                            //bricks.add(b);
                             r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
