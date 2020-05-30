@@ -19,11 +19,13 @@ public class TouchListener implements View.OnTouchListener{
     private float xDelta; // początek widoku
     private float yDelta;
 
+    public int gracz;
     public Engine engine;
 
-    public void takeEngine(Engine e)
+    public void takeEngine(Engine e, int g)
     {
         engine = e;
+        gracz = g;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class TouchListener implements View.OnTouchListener{
         boolean moved=false;
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-
+        RelativeLayout.LayoutParams orgParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
@@ -63,8 +65,9 @@ public class TouchListener implements View.OnTouchListener{
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff; //pozycja w którym jest palec
 
-                    rect.xCoord = (xDiff - startBoard)/rect.grid; //wspolrzedne na planszy
-                    rect.yCoord = (yDiff - topBoard)/rect.grid;
+                    rect.xCoord = (xDiff - startBoard) / rect.grid; //wspolrzedne na planszy
+                    rect.yCoord = (yDiff - topBoard) / rect.grid;
+
 
 
                 }
@@ -78,12 +81,25 @@ public class TouchListener implements View.OnTouchListener{
                 view.setLayoutParams(lParams);
                 break;
             case MotionEvent.ACTION_UP:
-
+                //postawienie klocka
 
                 if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
                         && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <=  startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  )   {
-                    rect.canMove = false;
-                    rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
+
+                    Brick B = new Brick(rect.dimX, rect.dimY, engine.player[gracz]);//todo
+
+                    if (engine.canPlace(rect.xCoord, rect.yCoord, B)){
+                        engine.placeBrick(rect.xCoord, rect.yCoord, B );
+                        rect.canMove = false;
+                        rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
+                    }
+
+                    else{
+                        view.setLayoutParams(orgParams);
+
+                    }
+
+
                 }
 
                 rect.setLayoutParams(lParams);

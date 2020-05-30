@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView rollText;
     
 
-    int turaGracza = 1;
+    int turaGracza = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,13 +114,13 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
-                            Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza-1]);
+                            Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza]);
                             bricks.add(b);
                             r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
-                            touchListener.takeEngine(engine);
+                            touchListener.takeEngine(engine, turaGracza);
 
                             r.setOnTouchListener(touchListener);
                             layout.addView(r);
@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
                             r.setLayoutParams(params);
 
                             turaGracza++;
-                            if(turaGracza > engine.getNumberOfGamers())
+                            if(turaGracza >= engine.getNumberOfGamers())
                             {
-                                turaGracza = 1;
+                                turaGracza = 0;
                             }
                         }//if( rects.get(rects.size()).canMove == false )
                         //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
         //x i y oraz sizeX i sizeY to wymiar prostokata ktory chcemy stworzyc z malych kwadratow
         int sizeX = x;
         int sizeY = y;
+
+        gracz+=1;
 
         //ustawia odpowiedni kolor kwadrata w zaleznosci od aktywnego gracza
         ImageView squareImage = findViewById(R.id.imageViewSquare);
