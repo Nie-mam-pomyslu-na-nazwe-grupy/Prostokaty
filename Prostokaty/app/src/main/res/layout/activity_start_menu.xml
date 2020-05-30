@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tlo1"
+    tools:context=".StartMenu">
+
+    <ImageButton
+        android:id="@+id/graTurowa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/gra" />
+
+    <ImageButton
+        android:id="@+id/Multiplayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_below="@id/graTurowa"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/multiplayer" />
+
+    <ImageButton
+        android:id="@+id/instrukcje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_below="@id/Multiplayer"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/instrukcje" />
+
+
+</RelativeLayout>

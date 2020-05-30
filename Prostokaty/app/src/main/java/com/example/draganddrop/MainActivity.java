@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        int NoPlayers= intent.getIntExtra(PlayersNumber.PLAYERS,2);//pobiera liczbę graczy z PlayersNumber.java
+
+
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
@@ -281,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMenu() { //przechodzi do menu
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, StartMenu.class);
         startActivity(intent);
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tlo1"
+    tools:context=".Instrukcje">
+
+
+    <TextView
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="15"
+        android:textSize="17dp"
+        android:gravity="start|top"
+        android:text=" Gra multiplayer przeznaczona dla od 2 do 4 osób. Gracze mają do dyspozycji prostokątną planszę składającą się z 20 kratek szerokości i 30 wysokości. Gracze rzucają przemiennie parą sześciennych kostek, ilość wyrzuconych oczek wskazuje na rozmiar rysowanego prostokąta tzn. jeżeli na kościach wypadnie 2 oraz 3 otrzymujemy prostokąt o wymiarach 2x3 lub 3x2, o wyborze decyduje gracz. Każdy gracz rozpoczyna budowanie prostokątów w swoim rogu, ustawiając prostokąt w taki sposób, aby stykał się z przynajmniej jedną kratką z własnych prostokątów. Dostawiane prostokąty mogą się stykać więcej niż jedną kratką, ale nie mogą się stykać tylko rogiem oraz nie mogą wchodzić na bloki znajdujące się już na planszy. W przypadku braku możliwości postawienia nowego prostokąta, tura przepada. Gra kończy się gdy zostanie zapełniona cała plansza. Wygrywa gracz, który zajął największą część pola."
+        android:inputType="textMultiLine"
+        />
+
+    <ImageButton
+        android:id="@+id/returnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+</RelativeLayout>
