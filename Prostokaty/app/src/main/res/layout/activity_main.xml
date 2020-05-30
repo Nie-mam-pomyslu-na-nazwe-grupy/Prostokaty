@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/board2030" />
 
     <Button
-        android:id="@+id/rollBbutton"
+        android:id="@+id/rollButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -35,15 +35,17 @@
         android:id="@+id/rollText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rollBbutton" />
+        app:layout_constraintTop_toBottomOf="@+id/passButton"
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/score1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Player 1 score: 0"
+        android:text="1 score: 0"
         app:layout_constraintBottom_toTopOf="@+id/imageBoard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
@@ -54,7 +56,7 @@
         android:id="@+id/score2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Player 2 score: 0"
+        android:text="P2 score: 0"
         app:layout_constraintBottom_toBottomOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.84"
@@ -67,23 +69,120 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/imageBoard"
+        app:layout_constraintBottom_toBottomOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.80"
-        app:layout_constraintTop_toTopOf="@+id/layout" />
+        app:layout_constraintTop_toBottomOf="@+id/imageBoard"
+        app:layout_constraintVertical_bias="0.01999998"
+ />
 
     <TextView
         android:id="@+id/score4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/imageBoard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.80"
+        app:layout_constraintTop_toTopOf="@+id/layout"
+ />
+
+    <Button
+        android:id="@+id/passButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Pass"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/layout"
+        app:layout_constraintStart_toStartOf="@+id/layout"
+        app:layout_constraintTop_toBottomOf="@+id/rollButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/image_view_die_2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/dice5"
         app:layout_constraintBottom_toBottomOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageBoard"
-        app:layout_constraintVertical_bias="0.01999998" />
+        app:layout_constraintVertical_bias="0.25" />
+
+    <ImageView
+        android:id="@+id/image_view_die_1"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/dice1"
+        app:layout_constraintBottom_toBottomOf="@+id/layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageBoard"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <TextView
+        android:id="@+id/passText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="P1 passes: 0/3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_die_2"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintVertical_bias="0.2" />
+    <TextView
+        android:id="@+id/passText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passText1"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintVertical_bias="0.0" />
+    <TextView
+        android:id="@+id/passText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="P2 passes: 0/3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_die_1"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.2" />
+    <TextView
+        android:id="@+id/passText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passText2"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/gameOverText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#3F51B5"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <RelativeLayout
         android:id="@+id/layout"
@@ -104,22 +203,6 @@
             android:layout_marginTop="500dp"
             android:visibility="invisible"/>
 
-
-        <ImageView
-            android:id="@+id/image_view_die_2"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="550dp"
-            android:src="@drawable/dice5" />
-
-        <ImageView
-            android:id="@+id/image_view_die_1"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="250dp"
-            android:layout_marginTop="550dp"
-            android:src="@drawable/dice1" />
 
         <ImageButton
             android:id="@+id/imageButton"

@@ -42,7 +42,6 @@ public class TouchListener implements View.OnTouchListener{
         boolean moved=false;
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        RelativeLayout.LayoutParams orgParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
@@ -84,9 +83,9 @@ public class TouchListener implements View.OnTouchListener{
                 if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
                         && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <=  startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  )   {
 
-                    Log.d("","" + gracz );
                     Brick B = new Brick(rect.dimX, rect.dimY, engine.player[gracz]);//todo
 
+                    //sprawdzanie czy mozemy postawic klocek w danym miejscu w relacji do reszty klockow w grze
                     if (engine.canPlace(rect.xCoord, rect.yCoord, B)){
                         engine.placeBrick(rect.xCoord, rect.yCoord, B );
                         rect.canMove = false;
@@ -94,13 +93,10 @@ public class TouchListener implements View.OnTouchListener{
                         engine.player[gracz].setScore( rect.dimX * rect.dimY );
                     }
 
-                    else{
-                        view.setLayoutParams(orgParams);
-
-                    }
+                    }//duży if
 
 
-                }
+                }//motion event
 
                 rect.setLayoutParams(lParams);
 
