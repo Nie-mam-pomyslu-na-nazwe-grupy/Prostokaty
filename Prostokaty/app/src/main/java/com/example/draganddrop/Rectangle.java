@@ -11,7 +11,6 @@ public class Rectangle extends ImageView {
     public int grid;
     public boolean canMove = true;
 
-
     public Rectangle(Context context){
         super(context);
     }

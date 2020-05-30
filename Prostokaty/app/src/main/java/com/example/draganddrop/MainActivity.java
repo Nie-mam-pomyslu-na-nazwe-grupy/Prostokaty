@@ -85,6 +85,42 @@ public class MainActivity extends AppCompatActivity {
                 topBoard = imageBoard.getTop();
                 final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
 
+                Rectangle[] rectsStart;
+                rectsStart = new Rectangle[engine.getNumberOfGamers()];
+
+                for(int i = 0; i<engine.getNumberOfGamers(); i++)
+                    rectsStart[i] = new Rectangle((getApplicationContext()));
+
+                for(int i=0; i<engine.getNumberOfGamers(); i++)
+                {
+
+                    rectsStart[i] = new Rectangle(getApplicationContext());
+                    rectsStart[i].setImageBitmap(createRectangle(1, 1, gridSize, i));
+
+                    RelativeLayout.LayoutParams params;
+                    layout.addView(rectsStart[i]);
+                    params = (RelativeLayout.LayoutParams) rectsStart[i].getLayoutParams();
+
+                    switch(i){
+                        case 0:
+                            params.leftMargin = startBoard;
+                            params.topMargin = topBoard;
+                            break;
+                        case 1:
+                            params.leftMargin = startBoard + ( (BdimX - 1) * gridSize );
+                            params.topMargin = topBoard+ ( (BdimY - 1) * gridSize );
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+
+                    }
+
+                    rectsStart[i].setLayoutParams(params);
+                }
+
+
 
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
@@ -93,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //if sprawdza czy poprzedni klocek zostal polozony na plansze
-                        if(  rects.size() == 0 || rects.get(rects.size()-1).canMove == false) {
+                        if(  rects.size() == 0 || !rects.get(rects.size()-1).canMove) {
                             rollText.setText((" "));
                             RelativeLayout.LayoutParams params;
 

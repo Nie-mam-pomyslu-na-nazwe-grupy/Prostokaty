@@ -58,7 +58,6 @@ public class TouchListener implements View.OnTouchListener{
                 int yDiff =  ( Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid  ) + topBoard%rect.grid ;; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
                 int xDiff = ( Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid ) + startBoard%rect.grid +10;
 
-                Log.d("","" + (xDiff - startBoard)/rect.grid + " " + (yDiff - topBoard)/rect.grid  );
                 if( yDiff >= topBoard && yDiff <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
                         && xDiff >= startBoard  && xDiff <= startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  ) {
 
@@ -67,7 +66,6 @@ public class TouchListener implements View.OnTouchListener{
 
                     rect.xCoord = (xDiff - startBoard) / rect.grid; //wspolrzedne na planszy
                     rect.yCoord = (yDiff - topBoard) / rect.grid;
-
 
 
                 }
@@ -86,6 +84,7 @@ public class TouchListener implements View.OnTouchListener{
                 if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
                         && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <=  startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  )   {
 
+                    Log.d("","" + gracz );
                     Brick B = new Brick(rect.dimX, rect.dimY, engine.player[gracz]);//todo
 
                     if (engine.canPlace(rect.xCoord, rect.yCoord, B)){
