@@ -109,25 +109,25 @@ public class Engine {
                     {
                         case 0:
                         {
-                            if(x+i+1 < 0 || x+i+1 >= B.getBrickX())break;
+                            if(x+i+1 < 0 || x+i+1 >= boardX)break;
                             if(this.boardMain[x+i+1][y+j] == B.getBrickColor())return true;
                             break;
                         }
                         case 1:
                         {
-                            if(x+i-1 < 0 || x+i-1 >= B.getBrickX())break;
+                            if(x+i-1 < 0 || x+i-1 >= boardX)break;
                             if(this.boardMain[x+i-1][y+j] == B.getBrickColor())return true;
                             break;
                         }
                         case 2:
                         {
-                            if(y+j+1 < 0 || y+j+1 >= B.getBrickY())break;
+                            if(y+j+1 < 0 || y+j+1 >= boardY)break;
                             if(this.boardMain[x+i][y+j+1] == B.getBrickColor())return true;
                             break;
                         }
                         case 3:
                         {
-                            if(y+j-1 < 0 || y+j-1 >= B.getBrickY())break;
+                            if(y+j-1 < 0 || y+j-1 >= boardY)break;
                             if(this.boardMain[x+i][y+j-1] == B.getBrickColor())return true;
                             break;
                         }
