@@ -6,14 +6,8 @@ public class Brick {
     Brick(int sizeX, int sizeY, Player player)
     {
         brickSize = new int[2];
-
-        if(player.direction[0] == 0)
-            brickSize[0] = -sizeX;
-        else brickSize[0] = sizeX;
-
-        if(player.direction[1] == 0)
-            brickSize[1] = -sizeY;
-        else brickSize[1] = sizeY;
+        brickSize[0] = sizeX;
+        brickSize[1] = sizeY;
 
         this.color = player.getPlayerColor();
     }
