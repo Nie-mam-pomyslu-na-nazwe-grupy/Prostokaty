@@ -2,19 +2,20 @@ package com.example.draganddrop;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,14 +26,18 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
-    public static int topBoard; //field którego użyjemy w touch listener, poczatek planszy
     private static final Random RANDOM = new Random();
     private ImageView imageViewDie1, imageViewDie2;
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
+    public static int topBoard;
     public static int BdimX = 20;
     public static int BdimY = 30;
     private Button rollButton;
+    private ImageButton imageButton;
     private TextView rollText;
+    
+
+    int turaGracza = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +47,24 @@ public class MainActivity extends AppCompatActivity {
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
+        //todo
+        //spytac sie o ilosc graczy przed gra
+        final Engine engine = new Engine(20, 30, 2);
+
+        imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
 
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
         final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
-        imageSquare.setImageResource(R.drawable.square);
+        imageSquare.setImageResource(R.drawable.square1);
 
+        //pozwala przejść do innej karty
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMenu();
+            }
+        });
 
         imageSquare.post(new Runnable() {
             @Override
@@ -63,21 +80,22 @@ public class MainActivity extends AppCompatActivity {
 
                 //ustalanie zmiennych ImageBoard
                 int[] dimensions = getBitmapPositionInsideImageView(imageBoard);
-                int startOfBoard = dimensions[0];
-                startBoard = startOfBoard;
-                int topOfBoard = dimensions[1];
-                topBoard = topOfBoard;
-                final int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
+                startBoard =imageBoard.getLeft();;
+                topBoard = imageBoard.getTop();
+                final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
+
+
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
                 rollButton = (Button) findViewById(R.id.rollBbutton);
                 rollButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //if sprawdza czy poprzedni klocek zostal polozony na plansze
                         if(  rects.size() == 0 || rects.get(rects.size()-1).canMove == false) {
                             rollText.setText((" "));
                             RelativeLayout.LayoutParams params;
+
 
                             Rectangle r = new Rectangle(getApplicationContext());
                             //losowanie wymiaru prostokąta
@@ -95,18 +113,27 @@ public class MainActivity extends AppCompatActivity {
                             r.dimX = SDimx;
                             r.dimY = SDimy;
                             r.grid = gridSize;
-                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize));
+
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
                             r.setOnTouchListener(touchListener);
                             layout.addView(r);
                             params = (RelativeLayout.LayoutParams) r.getLayoutParams();
-                            params.leftMargin = 400;
-                            params.topMargin = 1400;
+
+                            params.leftMargin = imageViewDie2.getRight() + 30;
+                            params.topMargin = rollText.getBottom() + 1;
+
                             r.setLayoutParams(params);
 
+                            turaGracza++;
+                            if(turaGracza > engine.getNumberOfGamers())
+                            {
+                                turaGracza = 1;
+                            }
                         }//if( rects.get(rects.size()).canMove == false )
+                        //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
                         else {rollText.setText(("There already is rectangle to be placed."));}
                     }//OnClick
                 });//OnClickListener
@@ -124,13 +151,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
-    private Bitmap createRectangle(int x, int y, int gridSize) {
+    private Bitmap createRectangle(int x, int y, int gridSize, int gracz) {
         //x i y oraz sizeX i sizeY to wymiar prostokata ktory chcemy stworzyc z malych kwadratow
         int sizeX = x;
         int sizeY = y;
 
+        //ustawia odpowiedni kolor kwadrata w zaleznosci od aktywnego gracza
+        ImageView squareImage = findViewById(R.id.imageViewSquare);
+        int res = getResources().getIdentifier("square"+gracz, "drawable", "com.example.draganddrop");
+        squareImage.setImageResource(res);
 
-        ImageView squareImage = findViewById(R.id.imageViewSquare); //pobieram z activity_main obrazek z id imageViewSquare
+         //pobieram z activity_main obrazek z id imageViewSquare
         BitmapDrawable drawable = (BitmapDrawable) squareImage.getDrawable(); //pobiera obraz kwadratu do zmiennej typu BitmapDrawable
 
 
@@ -254,6 +285,11 @@ public class MainActivity extends AppCompatActivity {
             parent.removeView(child);
             parent.addView(child, 0);
         }
+    }
+
+    public void openMenu() { //przechodzi do menu
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 }
 
