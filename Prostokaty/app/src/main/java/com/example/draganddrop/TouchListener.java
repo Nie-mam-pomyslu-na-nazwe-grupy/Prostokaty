@@ -60,7 +60,6 @@ public class TouchListener implements View.OnTouchListener{
                     rect.yCoord = (yDiff - topBoard)/rect.grid;
 
 
-
                 }
                 else //jesli ruszamy nim poza plansza to nie snapuje do siatki
                 {

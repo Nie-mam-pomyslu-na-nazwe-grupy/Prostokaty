@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
-                            //Brick b = new Brick(SDimx, SDimy, turaGracza);
-                            //bricks.add(b);
+                            Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza-1]);
+                            bricks.add(b);
                             r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
