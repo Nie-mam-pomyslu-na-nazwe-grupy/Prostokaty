@@ -24,10 +24,10 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
-    public static int topBoard; //field którego użyjemy w touch listener, poczatek planszy
     private static final Random RANDOM = new Random();
     private ImageView imageViewDie1, imageViewDie2;
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
+    public static int topBoard;
     public static int BdimX = 20;
     public static int BdimY = 30;
     private Button rollButton;
@@ -78,10 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //ustalanie zmiennych ImageBoard
                 int[] dimensions = getBitmapPositionInsideImageView(imageBoard);
-                int startOfBoard = dimensions[0];
-                startBoard = startOfBoard;
-                int topOfBoard = dimensions[1];
-                topBoard = topOfBoard;
+                startBoard =imageBoard.getLeft();;
+                topBoard = imageBoard.getTop();
                 final int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
@@ -112,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
-                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize+1, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 

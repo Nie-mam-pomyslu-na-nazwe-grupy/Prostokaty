@@ -3,20 +3,27 @@ package com.example.draganddrop;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+
 import android.widget.RelativeLayout;
 
+import static com.example.draganddrop.MainActivity.BdimX;
+import static com.example.draganddrop.MainActivity.BdimY;
+import static com.example.draganddrop.MainActivity.startBoard;
+import static com.example.draganddrop.MainActivity.topBoard;
 import static java.lang.StrictMath.abs;
 import static java.lang.StrictMath.pow;
 import static java.lang.StrictMath.sqrt;
 
 public class TouchListener implements View.OnTouchListener{
-    private float xDelta; // początek widoku?
+    private float xDelta; // początek widoku
     private float yDelta;
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         float x = motionEvent.getRawX();
         float y = motionEvent.getRawY();
+
 
         Rectangle rect = (Rectangle) view;
         if(!rect.canMove){
@@ -27,9 +34,8 @@ public class TouchListener implements View.OnTouchListener{
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
-        //lParams.addRule(RelativeLayout.CENTER_HORIZONTAL,0);/
-        //lParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
-
+        startBoard = ( (startBoard / rect.grid ) * rect.grid);
+        topBoard = ( (startBoard / rect.grid) * rect.grid);
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
@@ -42,12 +48,12 @@ public class TouchListener implements View.OnTouchListener{
 
             case MotionEvent.ACTION_MOVE:
                 //ustalenie nowych parametrow
-                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid -10; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
-                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid -10;
+                int yDiff =  Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid  ; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
+                int xDiff =  Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid  -5;
 
-                //Log.d("",xDiff + " " + yDiff + " "+  rect.dimX );
-                if( yDiff >= 70 && yDiff <= 1280 - ( rect.dimY * rect.grid)
-                        && xDiff >= 150 && xDiff <= 960 - (rect.dimX * rect.grid)  ) {
+                Log.d("","" + ( (BdimX - rect.dimX + 1 ) * rect.grid) + " " + ( (BdimY - rect.dimY + 1 ) * rect.grid) + " " + xDiff + " " + yDiff );
+                if( yDiff >= topBoard && yDiff <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
+                        && xDiff >= startBoard + rect.grid -5 && xDiff <= startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  ) {
 
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff; //pozycja w którym jest palec
@@ -64,8 +70,8 @@ public class TouchListener implements View.OnTouchListener{
             case MotionEvent.ACTION_UP:
 
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= 70 && lParams.topMargin <= 1280 - ( rect.dimY * rect.grid)
-                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= 150 && lParams.leftMargin <=  960 - (rect.dimX * rect.grid)  ) {
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <=  startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  )   {
                     rect.canMove = false;
                     rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
                 }
