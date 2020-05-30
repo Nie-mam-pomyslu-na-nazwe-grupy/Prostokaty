@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
+                            touchListener.takeEngine(engine);
+
                             r.setOnTouchListener(touchListener);
                             layout.addView(r);
                             params = (RelativeLayout.LayoutParams) r.getLayoutParams();

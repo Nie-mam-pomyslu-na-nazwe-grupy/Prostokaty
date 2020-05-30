@@ -19,6 +19,13 @@ public class TouchListener implements View.OnTouchListener{
     private float xDelta; // początek widoku
     private float yDelta;
 
+    public Engine engine;
+
+    public void takeEngine(Engine e)
+    {
+        engine = e;
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         float x = motionEvent.getRawX();
