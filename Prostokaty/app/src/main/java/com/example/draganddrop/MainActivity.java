@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 int[] dimensions = getBitmapPositionInsideImageView(imageBoard);
                 startBoard =imageBoard.getLeft();;
                 topBoard = imageBoard.getTop();
-                final int gridSize = dimensions[2] / BdimX;//zakładam, że kratki są idealnie kwadratowe
+                final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
                 rollButton = (Button) findViewById(R.id.rollBbutton);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
-                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize+1, turaGracza));
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
