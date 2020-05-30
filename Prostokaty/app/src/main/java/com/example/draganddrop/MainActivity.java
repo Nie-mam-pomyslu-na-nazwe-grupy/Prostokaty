@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static int BdimY = 30;
     private Button rollButton;
     private ImageButton imageButton;
-    private TextView rollText;
+    private TextView rollText, score1Text, score2Text, score3Text, score4Text;
     
 
     int turaGracza = 0;
@@ -45,18 +45,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
         Intent intent = getIntent();
         int NoPlayers= intent.getIntExtra(PlayersNumber.PLAYERS,2);//pobiera liczbę graczy z PlayersNumber.java
 
-
-        final Engine engine = new Engine(20, 30, 2);
+        final Engine engine = new Engine(20, 30, NoPlayers);
 
         imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
-
 
         final RelativeLayout layout = findViewById(R.id.layout); //zmienna layout, reprezentuje ona miejsce gdzie wrzucamy rzeczy z kodu na widok
         final ImageView imageSquare = findViewById(R.id.imageViewSquare);//zmienna imageSquare, typu ImageView. Reprezentuje ona kwadracik w formie graficznej
@@ -76,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                final TouchListener touchListener = new TouchListener();
 
                 //przygotowanie imageBoard
-
                 //pobieranie obrazu z ImageView
                 ImageView imageBoard = findViewById(R.id.imageBoard);
                 getBitmapPositionInsideImageView(imageBoard);
@@ -88,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 topBoard = imageBoard.getTop();
                 final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
 
+                //Ustawianie pojedynczego klocka w rogu, w zaleznosci od ilosci graczy:
                 Rectangle[] rectsStart;
                 rectsStart = new Rectangle[engine.getNumberOfGamers()];
 
@@ -106,16 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
                     switch(i){
                         case 0:
-                            params.leftMargin = startBoard;
+                            params.leftMargin = startBoard +4;
                             params.topMargin = topBoard;
                             break;
                         case 1:
-                            params.leftMargin = startBoard + ( (BdimX - 1) * gridSize );
+                            params.leftMargin = startBoard + ( (BdimX - 1) * gridSize ) ;
                             params.topMargin = topBoard+ ( (BdimY - 1) * gridSize );
                             break;
                         case 2:
+                            params.leftMargin = startBoard +2;
+                            params.topMargin = topBoard+ ( (BdimY - 1) * gridSize ) -4;
                             break;
                         case 3:
+                            params.leftMargin = startBoard + ( (BdimX - 1) * gridSize ) ;
+                            params.topMargin = topBoard;
                             break;
 
                     }
@@ -123,6 +124,26 @@ public class MainActivity extends AppCompatActivity {
                     rectsStart[i].setLayoutParams(params);
                 }
 
+                //ustawienie TextView z punktami graczy
+
+                score1Text = (TextView) findViewById(R.id.score1);
+                score2Text = (TextView) findViewById(R.id.score2);
+
+                if(engine.getNumberOfGamers() > 2 )
+                {
+                    switch(engine.getNumberOfGamers()){
+                        case 3:
+                            score3Text = (TextView) findViewById(R.id.score3);
+                            score3Text.setText("Player 3 score: 0");
+                            break;
+                        case 4:
+                            score3Text = (TextView) findViewById(R.id.score3);
+                            score3Text.setText("Player 3 score: 0");
+                            score4Text = (TextView) findViewById(R.id.score4);
+                            score4Text.setText("Player 4 score: 0");
+                            break;
+                    }
+                }
 
 
                 //runda gry:
@@ -134,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         //if sprawdza czy poprzedni klocek zostal polozony na plansze
                         if(  rects.size() == 0 || !rects.get(rects.size()-1).canMove) {
                             rollText.setText((" "));
+
                             RelativeLayout.LayoutParams params;
 
                             Rectangle r = new Rectangle(getApplicationContext());
@@ -171,10 +193,22 @@ public class MainActivity extends AppCompatActivity {
                             r.setLayoutParams(params);
 
                             turaGracza++;
-                            if(turaGracza >= engine.getNumberOfGamers())
-                            {
+                            if(turaGracza >= engine.getNumberOfGamers()) {
                                 turaGracza = 0;
                             }
+
+                            //ustawienie punktacji gracza w TextView
+
+                            score1Text.setText("Player 1 score: " + engine.player[0].getScore());
+                            score2Text.setText("Player 2 score: " + engine.player[1].getScore());
+
+                            if(engine.getNumberOfGamers() > 2)
+                            score3Text.setText("Player 3 score: " + engine.player[2].getScore());
+
+                            if(engine.getNumberOfGamers() > 3)
+                            score4Text.setText("Player 4 score: " + engine.player[3].getScore());
+
+
                         }//if( rects.get(rects.size()).canMove == false )
                         //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
                         else {rollText.setText(("There already is rectangle to be placed."));}

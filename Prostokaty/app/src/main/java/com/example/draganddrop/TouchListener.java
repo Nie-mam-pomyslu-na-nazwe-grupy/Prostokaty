@@ -91,6 +91,7 @@ public class TouchListener implements View.OnTouchListener{
                         engine.placeBrick(rect.xCoord, rect.yCoord, B );
                         rect.canMove = false;
                         rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
+                        engine.player[gracz].setScore( rect.dimX * rect.dimY );
                     }
 
                     else{

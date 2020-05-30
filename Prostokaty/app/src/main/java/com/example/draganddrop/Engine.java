@@ -153,4 +153,5 @@ public class Engine {
     {
         return numberOfGamers;
     }
+    public void setNumberOfGamers(int players ){ numberOfGamers = players; }
 }
