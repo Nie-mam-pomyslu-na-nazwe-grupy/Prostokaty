@@ -45,11 +45,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
-        //todo
-        //spytac sie o ilosc graczy przed gra
+        Intent intent = getIntent();
+        int NoPlayers= intent.getIntExtra(PlayersNumber.PLAYERS,2);//pobiera liczbę graczy z PlayersNumber.java
+
+
         final Engine engine = new Engine(20, 30, 2);
 
         imageButton=(ImageButton) findViewById(R.id.imageButton);//dodaje guzik pauzy
@@ -330,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMenu() { //przechodzi do menu
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, StartMenu.class);
         startActivity(intent);
     }
 }
