@@ -1,6 +1,8 @@
 package com.example.draganddrop;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +26,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
+    ArrayList<Brick> bricks = new ArrayList<Brick>();
     private static final Random RANDOM = new Random();
     private ImageView imageViewDie1, imageViewDie2;
     public static int startBoard; //field ktorego uzyjemy w touch listener, koniec planszy
@@ -35,17 +38,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView rollText;
     
 
-    int turaGracza = 1;
+    int turaGracza = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        int NoPlayers= intent.getIntExtra(PlayersNumber.PLAYERS,2);//pobiera liczbę graczy z PlayersNumber.java
-
-
+        
         imageViewDie1 = (ImageView) findViewById(R.id.image_view_die_1);
         imageViewDie2 = (ImageView) findViewById(R.id.image_view_die_2);
 
@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 startBoard =imageBoard.getLeft();;
                 topBoard = imageBoard.getTop();
                 final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
+
+
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
                 rollButton = (Button) findViewById(R.id.rollBbutton);
@@ -95,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                         if(  rects.size() == 0 || rects.get(rects.size()-1).canMove == false) {
                             rollText.setText((" "));
                             RelativeLayout.LayoutParams params;
-
 
                             Rectangle r = new Rectangle(getApplicationContext());
                             //losowanie wymiaru prostokąta
@@ -114,20 +115,27 @@ public class MainActivity extends AppCompatActivity {
                             r.dimY = SDimy;
                             r.grid = gridSize;
 
+                            Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza]);
+                            bricks.add(b);
                             r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
 
                             rects.add(r);//dodawanie prostokata do tablicy prostokatow
 
+                            touchListener.takeEngine(engine, turaGracza);
+
                             r.setOnTouchListener(touchListener);
                             layout.addView(r);
                             params = (RelativeLayout.LayoutParams) r.getLayoutParams();
-                            params.leftMargin = 400;
-                            params.topMargin = 1400;
+
+                            params.leftMargin = imageViewDie2.getRight() + 30;
+                            params.topMargin = rollText.getBottom() + 1;
+
                             r.setLayoutParams(params);
+
                             turaGracza++;
-                            if(turaGracza > engine.getNumberOfGamers())
+                            if(turaGracza >= engine.getNumberOfGamers())
                             {
-                                turaGracza = 1;
+                                turaGracza = 0;
                             }
                         }//if( rects.get(rects.size()).canMove == false )
                         //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
@@ -152,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
         //x i y oraz sizeX i sizeY to wymiar prostokata ktory chcemy stworzyc z malych kwadratow
         int sizeX = x;
         int sizeY = y;
+
+        gracz+=1;
 
         //ustawia odpowiedni kolor kwadrata w zaleznosci od aktywnego gracza
         ImageView squareImage = findViewById(R.id.imageViewSquare);

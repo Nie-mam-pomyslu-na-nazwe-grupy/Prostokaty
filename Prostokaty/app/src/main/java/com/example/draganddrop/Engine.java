@@ -4,7 +4,6 @@ public class Engine {
     private int boardX;
     private int boardY;
     public int[][] boardMain;
-    public int[][] boardTMP;
     private int numberOfGamers;
     public Player[] player;
 
@@ -14,7 +13,6 @@ public class Engine {
         this.boardX = boardX;
         this.boardY = boardY;
         boardMain = new int[boardX][boardY];
-        boardTMP = new int[boardX][boardY];
 
         //wypełnienie tablic zerami
         for(int i=0; i<this.boardX; i++)
@@ -22,7 +20,6 @@ public class Engine {
             for(int j=0; j<this.boardY; j++)
             {
                 boardMain[i][j] = 0;
-                boardTMP[i][j] = 0;
             }
         }
 
@@ -31,9 +28,8 @@ public class Engine {
         for(int i = 0; i<this.numberOfGamers; i++)
             player[i] = new Player();
 
-        //System.out.print(player);
 
-        // przypisanie rogu do gracza
+        // przypisanie rogu i koloru do gracza
         for(int i=0; i<this.numberOfGamers; i++)
         {
             player[i].setPlayerColor(i+1);
@@ -43,32 +39,24 @@ public class Engine {
                 {
                     player[i].corner[0] = 0;
                     player[i].corner[1] = 0;
-                    player[i].direction[0] = 1;
-                    player[i].direction[1] = 1;
                     break;
                 }
                 case 1:
                 {
                     player[i].corner[0] = boardX-1;
                     player[i].corner[1] = boardY-1;
-                    player[i].direction[0] = 0;
-                    player[i].direction[1] = 0;
                     break;
                 }
                 case 2:
                 {
                     player[i].corner[0] = 0;
                     player[i].corner[1] = boardY-1;
-                    player[i].direction[0] = 1;
-                    player[i].direction[1] = 0;
                     break;
                 }
                 case 3:
                 {
                     player[i].corner[0] = boardX-1;
                     player[i].corner[1] = 0;
-                    player[i].direction[0] = 0;
-                    player[i].direction[1] = 1;
                     break;
                 }
             }
@@ -82,15 +70,11 @@ public class Engine {
     public boolean canPlace(int x, int y, Brick B)
     {
         //czy się mieści
-        System.out.println("przed fit");
         if(!cFit(x,y,B))return false;
         //czy nie ma nic pod klockiem
-        System.out.println("przed colide");
         if(!cColide(x,y,B))return false;
         //czy się styka z polami gracza
-        System.out.println("przed allies");
         if(!cAllies(x,y,B))return false;
-        System.out.println("za allies");
         return true;
     }
     private boolean cFit(int x, int y, Brick B)
@@ -103,35 +87,11 @@ public class Engine {
     }
     private boolean cColide(int x, int y, Brick B)
     {
-        int tmpX, tmpY, brickX, brickY;
-        if(B.getBrickX() < 0)
+        for(int i = 0; i<B.getBrickX(); i++)
         {
-            tmpX = x + B.getBrickX() + 1;
-            brickX = -B.getBrickX();
-        }
-        else
-        {
-            tmpX = x;
-            brickX = B.getBrickX();
-        }
-        if(B.getBrickY() < 0)
-        {
-            tmpY = y + B.getBrickY() + 1;
-            brickY = -B.getBrickY();
-        }
-        else
-        {
-            tmpY = y;
-            brickY = B.getBrickY();
-        }
-        //===============
-
-        for(int i = 0; i<brickX; i++)
-        {
-            for(int j = 0; j<brickY; j++)
+            for(int j = 0; j<B.getBrickY(); j++)
             {
-                System.out.println("colide " + i + " " + j);
-                if(this.boardMain[tmpX+i][tmpY+j] != 0)return false;
+                if(this.boardMain[x+i][y+j] != 0)return false;
             }
         }
         return true;
@@ -139,32 +99,9 @@ public class Engine {
 
     private boolean cAllies(int x, int y, Brick B)
     {
-        int tmpX, tmpY, brickX, brickY;
-        if(B.getBrickX() < 0)
+        for(int i = 0; i<B.getBrickX(); i++)
         {
-            tmpX = x + B.getBrickX() + 1;
-            brickX = -B.getBrickX();
-        }
-        else
-        {
-            tmpX = x;
-            brickX = B.getBrickX();
-        }
-        if(B.getBrickY() < 0)
-        {
-            tmpY = y + B.getBrickY() + 1;
-            brickY = -B.getBrickY();
-        }
-        else
-        {
-            tmpY = y;
-            brickY = B.getBrickY();
-        }
-        //=============
-
-        for(int i = 0; i<brickX; i++)
-        {
-            for(int j = 0; j<brickY; j++)
+            for(int j = 0; j<B.getBrickY(); j++)
             {
                 for(int k = 0; k<4; k++)
                 {
@@ -172,26 +109,26 @@ public class Engine {
                     {
                         case 0:
                         {
-                            if(tmpX+i+1 < 0 || tmpX+i+1 >= boardX)break;
-                            if(this.boardMain[tmpX+i+1][tmpY+j] == B.getBrickColor())return true;
+                            if(x+i+1 < 0 || x+i+1 >= B.getBrickX())break;
+                            if(this.boardMain[x+i+1][y+j] == B.getBrickColor())return true;
                             break;
                         }
                         case 1:
                         {
-                            if(tmpX+i-1 < 0 || tmpX+i-1 >= boardX)break;
-                            if(this.boardMain[tmpX+i-1][tmpY+j] == B.getBrickColor())return true;
+                            if(x+i-1 < 0 || x+i-1 >= B.getBrickX())break;
+                            if(this.boardMain[x+i-1][y+j] == B.getBrickColor())return true;
                             break;
                         }
                         case 2:
                         {
-                            if(tmpY+j+1 < 0 || tmpY+j+1 >= boardY)break;
-                            if(this.boardMain[tmpX+i][tmpY+j+1] == B.getBrickColor())return true;
+                            if(y+j+1 < 0 || y+j+1 >= B.getBrickY())break;
+                            if(this.boardMain[x+i][y+j+1] == B.getBrickColor())return true;
                             break;
                         }
                         case 3:
                         {
-                            if(tmpY+j-1 < 0 || tmpY+j-1 >= boardY)break;
-                            if(this.boardMain[tmpX+i][tmpY+j-1] == B.getBrickColor())return true;
+                            if(y+j-1 < 0 || y+j-1 >= B.getBrickY())break;
+                            if(this.boardMain[x+i][y+j-1] == B.getBrickColor())return true;
                             break;
                         }
                     }
@@ -203,35 +140,11 @@ public class Engine {
 
     public void placeBrick(int x, int y, Brick B)
     {
-        int tmpX, tmpY, brickX, brickY;
-        if(B.getBrickX() < 0)
+        for(int i = 0; i<B.getBrickX(); i++)
         {
-            tmpX = x + B.getBrickX() + 1;
-            brickX = -B.getBrickX();
-        }
-        else
-        {
-            tmpX = x;
-            brickX = B.getBrickX();
-        }
-        if(B.getBrickY() < 0)
-        {
-            tmpY = y + B.getBrickY() + 1;
-            brickY = -B.getBrickY();
-        }
-        else
-        {
-            tmpY = y;
-            brickY = B.getBrickY();
-        }
-        //===================
-
-        for(int i = 0; i<brickX; i++)
-        {
-            for(int j = 0; j<brickY; j++)
+            for(int j = 0; j<B.getBrickY(); j++)
             {
-                //System.out.println((x+i) + " " + (y+j));
-                this.boardMain[tmpX+i][tmpY+j] = B.getBrickColor();
+                this.boardMain[x+i][y+j] = B.getBrickColor();
             }
         }
     }
