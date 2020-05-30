@@ -1,6 +1,8 @@
 package com.example.draganddrop;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 startBoard =imageBoard.getLeft();;
                 topBoard = imageBoard.getTop();
                 final int gridSize =( dimensions[2] / BdimX) +1;//zakładam, że kratki są idealnie kwadratowe
+
+
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
                 rollButton = (Button) findViewById(R.id.rollBbutton);
@@ -117,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
                             r.setOnTouchListener(touchListener);
                             layout.addView(r);
                             params = (RelativeLayout.LayoutParams) r.getLayoutParams();
-                            params.leftMargin = 400;
-                            params.topMargin = 1400;
+
+                            params.leftMargin = imageViewDie2.getRight() + 30;
+                            params.topMargin = rollText.getBottom() + 1;
+
                             r.setLayoutParams(params);
+
                             turaGracza++;
                             if(turaGracza > engine.getNumberOfGamers())
                             {
