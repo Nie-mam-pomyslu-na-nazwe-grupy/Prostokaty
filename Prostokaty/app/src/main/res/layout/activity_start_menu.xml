@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,32 +9,53 @@
 
     <ImageButton
         android:id="@+id/graLokalna"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/gralokalna" />
+        android:src="@drawable/gralokalna"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18" />
 
     <ImageButton
         android:id="@+id/graOnline"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_below="@id/graLokalna"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/graonline" />
+        android:src="@drawable/graonline"
+        app:layout_constraintBottom_toTopOf="@+id/instrukcje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graLokalna" />
 
     <ImageButton
         android:id="@+id/instrukcje"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_below="@id/graOnline"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/instrukcje" />
+        android:src="@drawable/instrukcje"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

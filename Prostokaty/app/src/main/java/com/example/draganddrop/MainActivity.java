@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
     public static int topBoard;
     public static int BdimX = 20;
     public static int BdimY = 30;
-    private ImageButton rollButton, passButton;
+    private ImageButton rollButton, passButton, turnButton;
     private ImageButton imageButton;
     private TextView rollText, score1Text, score2Text, score3Text, score4Text, passText1, passText2, passText3, passText4, gameOverText;
+    private ImageView popUpView;
     
     //zmienne ktore chce uzyc w klasie wewnetrznej, wiec musza byc zadeklarowane przed OnCreate
     int turaGracza = 0;
@@ -137,13 +138,13 @@ public class MainActivity extends AppCompatActivity {
                     switch(engine.getNumberOfGamers()){
                         case 3:
                             score3Text = (TextView) findViewById(R.id.score3);
-                            score3Text.setText("P3 score: 0");
+                            score3Text.setText("G3 punkty: 0");
                             break;
                         case 4:
                             score3Text = (TextView) findViewById(R.id.score3);
-                            score3Text.setText("P3 score: 0");
+                            score3Text.setText("G3 punkty: 0");
                             score4Text = (TextView) findViewById(R.id.score4);
-                            score4Text.setText("P4 score: 0");
+                            score4Text.setText("G4 punkty: 0");
                             break;
                     }
                 }
@@ -157,13 +158,13 @@ public class MainActivity extends AppCompatActivity {
                     switch(engine.getNumberOfGamers()){
                         case 3:
                             passText3 = (TextView) findViewById(R.id.passText3);
-                            passText3.setText("P3 passes: 0/3");
+                            passText3.setText("G3 pasy: 0/3");
                             break;
                         case 4:
                             passText3 = (TextView) findViewById(R.id.passText3);
-                            passText3.setText("P3 passes: 0/3");
+                            passText3.setText("G3 pasy: 0/3");
                             passText4 = (TextView) findViewById(R.id.passText4);
-                            passText4.setText("P4 passes: 0/3");
+                            passText4.setText("G4 pasy: 0/3");
                             break;
                     }
                 }
@@ -219,80 +220,41 @@ public class MainActivity extends AppCompatActivity {
                             r.setLayoutParams(params);
 
                             //sprawdzanie czy ktos wygral gre
-                            boolean winner = false;
-                            int counter = 0;
-                            int whoWon = 10;
 
-                            for(int i=0; i< engine.getNumberOfGamers(); i++)
+                            if(!checkWinner(engine, passes, loseCondition))
                             {
-                                if(passes[i] >= loseCondition)
-                                {
-                                    counter++;
-                                }
-
-                                if(counter >= engine.getNumberOfGamers() - 1)
-                                {
-                                    winner = true;
-                                }
-                            }
-
-                            if(!winner)
-                            {
-                                turaGracza++;
-                                if(turaGracza >= engine.getNumberOfGamers()) {
-                                    turaGracza = 0;
-                                }
-                                while( passes[turaGracza] >= loseCondition)
                                 {
                                     turaGracza++;
                                     if(turaGracza >= engine.getNumberOfGamers()) {
                                         turaGracza = 0;
                                     }
-
-                                }
-                            }
-                            else//if winner
-                            {
-                                //obliczanie zwyciezcy
-                                for(int i=0; i<engine.getNumberOfGamers(); i++)
-                                {
-                                    if(passes[i] < loseCondition)
+                                    while( passes[turaGracza] >= loseCondition)
                                     {
-                                        whoWon = i+1;
+                                        turaGracza++;
+                                        if(turaGracza >= engine.getNumberOfGamers()) {
+                                            turaGracza = 0;
+                                        }
+
                                     }
                                 }
-
-
-                                int mostPoints=0;
-                                for(int i=1;  i<engine.getNumberOfGamers(); i++)
-                                {
-                                    if(engine.player[i].getScore() > engine.player[mostPoints].getScore())
-                                        mostPoints = i;
-                                }
-                                mostPoints++;
-
-                                gameOverText.setText("Game Over! \nPlayer " + whoWon + " is the survivor \nPlayer "+ mostPoints + " has highest score");
-                                gameOverText.bringToFront();
                             }
-
 
                             if( turaGracza > 0 ) firstPlaced = true;//flaga dajaca znac ze pierwszy klocek zostal postawiony
 
                             //ustawienie punktacji graczy w TextView
 
-                            score1Text.setText("P1 score: " + engine.player[0].getScore());
-                            score2Text.setText("P2 score: " + engine.player[1].getScore());
+                            score1Text.setText("G1 punkty: " + engine.player[0].getScore());
+                            score2Text.setText("G2 punkty: " + engine.player[1].getScore());
 
                             if(engine.getNumberOfGamers() > 2)
-                            score3Text.setText("P3 score: " + engine.player[2].getScore());
+                            score3Text.setText("G3 punkty: " + engine.player[2].getScore());
 
                             if(engine.getNumberOfGamers() > 3)
-                            score4Text.setText("P4 score: " + engine.player[3].getScore());
-
+                            score4Text.setText("G4 punkty: " + engine.player[3].getScore());
 
                         }//if( rects.get(rects.size()).canMove == false )
                         //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
-                        else {rollText.setText(("There already is rectangle to be placed."));}
+                        else {rollText.setText(("Umieść istniejący prostokąt."));}
                     }//OnClick rollButton
                 });//OnClickListener rollButton
 
@@ -311,48 +273,70 @@ public class MainActivity extends AppCompatActivity {
                             justDeleted = true;//flaga dajaca znac ze usunelismy przed chwila klocek
 
                             //manipulowanie tablica ktora informuje ktory gracz ile razy spasowal
-                            int nGracz;
-                            nGracz = turaGracza-1;
-                            if(turaGracza - 1 < 0 ) nGracz = engine.getNumberOfGamers() -1 ;
-
-                            while(passes[nGracz] == loseCondition)
-                            {
-                             nGracz--;
-                             if(nGracz < 0)
-                             {
-                                 nGracz = engine.getNumberOfGamers()-1;
-                             }
-                            }
-
+                            int nGracz = activePlayer(turaGracza, passes, engine, loseCondition);
                             passes[nGracz]++;
 
                             //ustawianie tekstu informujacego o pasach
                             switch(nGracz)
                             {
                                 case 0:
-                                    passText1.setText("P1 passes: " + passes[nGracz] +"/3");
+                                    passText1.setText("G1 pasy: " + passes[nGracz] +"/3");
                                     if(passes[nGracz] >= loseCondition ) passText1.setTextColor(Color.RED);
                                     break;
                                 case 1:
-                                    passText2.setText("P2 passes: " + passes[nGracz] +"/3");
+                                    passText2.setText("G2 pasy: " + passes[nGracz] +"/3");
                                     if(passes[nGracz] >= loseCondition ) passText2.setTextColor(Color.RED);
                                     break;
                                 case 2:
-                                    passText3.setText("P3 passes: " + passes[nGracz] +"/3");
+                                    passText3.setText("G3 pasy: " + passes[nGracz] +"/3");
                                     if(passes[nGracz] >= loseCondition ) passText3.setTextColor(Color.RED);
                                     break;
                                 case 3:
-                                    passText4.setText("P4 passes: " + passes[nGracz] +"/3");
+                                    passText4.setText("G4 pasy: " + passes[nGracz] +"/3");
                                     if(passes[nGracz] >= loseCondition ) passText4.setTextColor(Color.RED);
                                     break;
                             }
 
                         }
-                        else rollText.setText("Nothing to pass.");
+                        else rollText.setText("Brak prostokąta do odrzucenia");
 
                     }//OnClick passButton
 
                     });//OnClickListener passButton
+
+                //obracanie klocka
+                turnButton = (ImageButton) findViewById(R.id.turnButton);
+                turnButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(firstPlaced && !justDeleted && rects.size() > 0 && rects.get(rects.size()-1).canMove )
+                        {
+                            bricks.get(bricks.size()-1).rollBrick();
+
+                            int x = rects.size()-1;
+                            RelativeLayout.LayoutParams parameters;
+                            parameters = (RelativeLayout.LayoutParams) rects.get(x).getLayoutParams();
+                            layout.removeView( rects.get(x) ) ;
+                            rects.remove( x );
+
+                            Rectangle r = new Rectangle(getApplicationContext());
+                            r.dimX = bricks.get(bricks.size()-1).getBrickX();
+                            r.dimY = bricks.get(bricks.size()-1).getBrickY();
+                            r.grid = gridSize;
+                            r.setImageBitmap(createRectangle(bricks.get(bricks.size()-1).getBrickX(), bricks.get(bricks.size()-1).getBrickY(), gridSize, bricks.get(bricks.size()-1).getBrickColor()-1));
+                            r.setLayoutParams(parameters);
+                            rects.add(r);
+
+                            int gracz = activePlayer(turaGracza, passes, engine, loseCondition);
+
+                            touchListener.takeEngine(engine, gracz);//umozliwia operowanie na engine w TouchListenerze
+                            r.setOnTouchListener(touchListener);
+                            layout.addView(r);
+                        }
+                        else rollText.setText("Brak prostokąta do obrócenia");
+
+                    }//onclick
+                });//onclicklistener
 
             }//public void run
 
@@ -364,6 +348,25 @@ public class MainActivity extends AppCompatActivity {
     private int roll()
     {//losowanie 1 kosci
         return RANDOM.nextInt(6) + 1;
+    }
+
+    //funkcja uzywana do obliczenia aktywnego gracza dla guzików turn i pass
+    private int activePlayer( int turaGracza, int []passes, Engine engine, int loseCondition)
+    {
+        int nGracz;
+        nGracz = turaGracza-1;
+        if(turaGracza - 1 < 0 ) nGracz = engine.getNumberOfGamers() -1 ;
+
+        while(passes[nGracz] == loseCondition)
+        {
+            nGracz--;
+            if(nGracz < 0)
+            {
+                nGracz = engine.getNumberOfGamers()-1;
+            }
+        }
+
+        return nGracz;
     }
 
     //funkcja, ktora tworzy bitmape prostokata z malych kwadratow i zwraca prostakat jako bitmapa.
@@ -413,6 +416,56 @@ public class MainActivity extends AppCompatActivity {
         return merged;
 
 
+    }
+
+    private boolean checkWinner(Engine engine, int[]passes, int loseCondition)
+    {
+        boolean winner = false;
+        int counter = 0;
+        int whoWon = 10;
+
+        for(int i=0; i< engine.getNumberOfGamers(); i++)
+        {
+            if(passes[i] >= loseCondition)
+            {
+                counter++;
+            }
+
+            if(counter >= engine.getNumberOfGamers() - 1)
+            {
+                winner = true;
+            }
+        }
+
+        if (winner)
+        {
+            //obliczanie zwyciezcy
+            for(int i=0; i<engine.getNumberOfGamers(); i++)
+            {
+                if(passes[i] < loseCondition)
+                {
+                    whoWon = i+1;
+                }
+            }
+
+
+            int mostPoints=0;
+            for(int i=1;  i<engine.getNumberOfGamers(); i++)
+            {
+                if(engine.player[i].getScore() > engine.player[mostPoints].getScore())
+                    mostPoints = i;
+            }
+            mostPoints++;
+
+            popUpView = (ImageView) findViewById(R.id.popUpImage);
+            popUpView.setVisibility(View.VISIBLE);
+
+            gameOverText.setText("Koniec Gry! \nGracz " + whoWon + " jest ostatnim ocalałym \nGracz "+ mostPoints + " ma najwięcej punktów");
+            gameOverText.bringToFront();
+        }
+
+        if(winner) return true;
+        else return false;
     }
 
     //funkcja zaklada, ze obie bitmapy maja te sama wysokosc
