@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,41 +9,54 @@
 
     <ImageButton
         android:id="@+id/graczy2"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/graczy2" />
+        android:src="@drawable/graczy2"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18" />
 
     <ImageButton
         android:id="@+id/graczy3"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:layout_marginRight="10dp"
+        android:layout_width="0dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_below="@id/graczy2"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/graczy3" />
+        android:src="@drawable/graczy3"
+        app:layout_constraintBottom_toTopOf="@+id/graczy4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graczy2" />
 
     <ImageButton
         android:id="@+id/graczy4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:layout_marginRight="10dp"
+        android:layout_width="0dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:scaleType="fitXY"
-        android:layout_below="@id/graczy3"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/graczy4" />
+        android:src="@drawable/graczy4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72" />
 
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
