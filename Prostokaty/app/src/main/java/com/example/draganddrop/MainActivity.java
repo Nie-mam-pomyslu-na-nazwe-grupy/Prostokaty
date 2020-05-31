@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     boolean firstPlaced = false;
     boolean justDeleted = false;
     int[] passes = {0, 0, 0, 0};
-    boolean flaga = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,91 +174,80 @@ public class MainActivity extends AppCompatActivity {
                 rollButton = (ImageButton) findViewById(R.id.rollButton);
                 gameOverText = (TextView) findViewById(R.id.gameOverText);
 
-
                 rollButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //if sprawdza czy poprzedni klocek zostal polozony na plansze
                         if(  rects.size() == 0 || justDeleted || !rects.get(rects.size()-1).canMove ) {
-                            if(!flaga)
+                            justDeleted = false;
+                            rollText.setText((" "));
+
+                            RelativeLayout.LayoutParams params;
+
+                            Rectangle r = new Rectangle(getApplicationContext());
+                            //losowanie wymiaru prostokąta
+                            int SDimx = roll();
+                            int SDimy = roll();
+
+                            //na podstawie wylosowanej liczby ustawia obraz kostki
+                            int res1 = getResources().getIdentifier("dice" + SDimx, "drawable", "com.example.draganddrop");
+                            int res2 = getResources().getIdentifier("dice" + SDimy, "drawable", "com.example.draganddrop");
+
+                            imageViewDie1.setImageResource(res1);
+                            imageViewDie2.setImageResource(res2);
+
+                            //ustawia pola prostokata na jego dane
+                            r.dimX = SDimx;
+                            r.dimY = SDimy;
+                            r.grid = gridSize;
+
+                            //dodawanie nowego prostokata do tablicy prostokatkow
+                            Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza]);
+                            bricks.add(b);
+                            r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
+                            rects.add(r);
+
+                            touchListener.takeEngine(engine, turaGracza);//umozliwia operowanie na engine w TouchListenerze
+                            r.setOnTouchListener(touchListener);
+
+                            //ustawienie pozycji nowostworzonego klocka
+                            layout.addView(r);
+                            params = (RelativeLayout.LayoutParams) r.getLayoutParams();
+
+                            params.leftMargin = imageViewDie2.getRight() + 30;
+                            params.topMargin = rollText.getBottom() + 1;
+
+                            r.setLayoutParams(params);
+
+                            //sprawdzanie czy ktos wygral gre
+
+                            if(!checkWinner(engine, passes, loseCondition))
                             {
-                                justDeleted = false;
-                                rollText.setText((" "));
-
-                                RelativeLayout.LayoutParams params;
-
-                                Rectangle r = new Rectangle(getApplicationContext());
-                                //losowanie wymiaru prostokąta
-                                int SDimx = roll();
-                                int SDimy = roll();
-
-                                //na podstawie wylosowanej liczby ustawia obraz kostki
-                                int res1 = getResources().getIdentifier("dice" + SDimx, "drawable", "com.example.draganddrop");
-                                int res2 = getResources().getIdentifier("dice" + SDimy, "drawable", "com.example.draganddrop");
-
-                                imageViewDie1.setImageResource(res1);
-                                imageViewDie2.setImageResource(res2);
-
-                                //ustawia pola prostokata na jego dane
-                                r.dimX = SDimx;
-                                r.dimY = SDimy;
-                                r.grid = gridSize;
-
-                                //dodawanie nowego prostokata do tablicy prostokatkow
-                                Brick b = new Brick(SDimx, SDimy, engine.player[turaGracza]);
-                                bricks.add(b);
-                                r.setImageBitmap(createRectangle(SDimx, SDimy, gridSize, turaGracza));
-                                rects.add(r);
-
-                                touchListener.takeEngine(engine, turaGracza);//umozliwia operowanie na engine w TouchListenerze
-                                r.setOnTouchListener(touchListener);
-
-                                //ustawienie pozycji nowostworzonego klocka
-                                layout.addView(r);
-                                params = (RelativeLayout.LayoutParams) r.getLayoutParams();
-
-                                params.leftMargin = imageViewDie2.getRight() + 30;
-                                params.topMargin = rollText.getBottom() + 1;
-
-                                r.setLayoutParams(params);
-
-                                ((ImageButton) rollButton).setImageResource(R.drawable.rzut);//todo zamienic "rzut" na nazwe pliku "zakoncz ture"
-                                flaga = true;
-                            }
-                            else if(flaga)//jesli guzik zostal juz raznacisniety raz przez jednego gracza
-                            {
-                                //sprawdzanie czy ktos wygral gre
-                                if(!checkWinner(engine, passes, loseCondition))
+                                turaGracza++;
+                                if(turaGracza >= engine.getNumberOfGamers()) {
+                                    turaGracza = 0;
+                                }
+                                while( passes[turaGracza] >= loseCondition)
                                 {
                                     turaGracza++;
                                     if(turaGracza >= engine.getNumberOfGamers()) {
                                         turaGracza = 0;
                                     }
-                                    while( passes[turaGracza] >= loseCondition)
-                                    {
-                                        turaGracza++;
-                                        if(turaGracza >= engine.getNumberOfGamers()) {
-                                            turaGracza = 0;
-                                        }
-                                    }
                                 }
-
-                                if( turaGracza > 0 ) firstPlaced = true;//flaga dajaca znac ze pierwszy klocek zostal postawiony
-
-                                //ustawienie punktacji graczy w TextView
-
-                                score1Text.setText("G1 punkty: " + engine.player[0].getScore());
-                                score2Text.setText("G2 punkty: " + engine.player[1].getScore());
-
-                                if(engine.getNumberOfGamers() > 2)
-                                    score3Text.setText("G3 punkty: " + engine.player[2].getScore());
-
-                                if(engine.getNumberOfGamers() > 3)
-                                    score4Text.setText("G4 punkty: " + engine.player[3].getScore());
-
-                                flaga = false;
                             }
 
+                            if( turaGracza > 0 ) firstPlaced = true;//flaga dajaca znac ze pierwszy klocek zostal postawiony
+
+                            //ustawienie punktacji graczy w TextView
+
+                            score1Text.setText("G1 punkty: " + engine.player[0].getScore());
+                            score2Text.setText("G2 punkty: " + engine.player[1].getScore());
+
+                            if(engine.getNumberOfGamers() > 2)
+                            score3Text.setText("G3 punkty: " + engine.player[2].getScore());
+
+                            if(engine.getNumberOfGamers() > 3)
+                            score4Text.setText("G4 punkty: " + engine.player[3].getScore());
 
                         }//if( rects.get(rects.size()).canMove == false )
                         //przy probubie wygenerowania klocka jesli jest aktywny klocek, wyswietla sie komunikat
@@ -282,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                             justDeleted = true;//flaga dajaca znac ze usunelismy przed chwila klocek
 
                             //manipulowanie tablica ktora informuje ktory gracz ile razy spasowal
-                            int nGracz = turaGracza;//activePlayer(turaGracza, passes, engine, loseCondition);
+                            int nGracz = activePlayer(turaGracza, passes, engine, loseCondition);
                             passes[nGracz]++;
 
                             //ustawianie tekstu informujacego o pasach
@@ -336,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
                             r.setLayoutParams(parameters);
                             rects.add(r);
 
-                            int gracz = turaGracza;// activePlayer(turaGracza, passes, engine, loseCondition);
+                            int gracz = activePlayer(turaGracza, passes, engine, loseCondition);
 
                             touchListener.takeEngine(engine, gracz);//umozliwia operowanie na engine w TouchListenerze
                             r.setOnTouchListener(touchListener);
