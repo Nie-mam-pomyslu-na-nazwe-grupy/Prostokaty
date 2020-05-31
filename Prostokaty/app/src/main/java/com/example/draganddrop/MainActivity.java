@@ -223,18 +223,15 @@ public class MainActivity extends AppCompatActivity {
 
                             if(!checkWinner(engine, passes, loseCondition))
                             {
+                                turaGracza++;
+                                if(turaGracza >= engine.getNumberOfGamers()) {
+                                    turaGracza = 0;
+                                }
+                                while( passes[turaGracza] >= loseCondition)
                                 {
                                     turaGracza++;
                                     if(turaGracza >= engine.getNumberOfGamers()) {
                                         turaGracza = 0;
-                                    }
-                                    while( passes[turaGracza] >= loseCondition)
-                                    {
-                                        turaGracza++;
-                                        if(turaGracza >= engine.getNumberOfGamers()) {
-                                            turaGracza = 0;
-                                        }
-
                                     }
                                 }
                             }
