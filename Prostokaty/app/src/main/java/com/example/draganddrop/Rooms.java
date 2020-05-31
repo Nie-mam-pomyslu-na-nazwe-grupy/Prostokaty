@@ -86,7 +86,7 @@ public class Rooms extends AppCompatActivity {
                 //dołacz do pokoju
                 CreateRoom.setText("CREATE ROOM");
                 CreateRoom.setEnabled(true);
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent=new Intent(getApplicationContext(),Main2Activity.class);
                 intent.putExtra("roomName", roomName);
                 startActivity(intent);
             }
