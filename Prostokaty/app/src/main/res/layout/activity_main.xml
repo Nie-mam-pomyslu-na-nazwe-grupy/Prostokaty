@@ -94,22 +94,21 @@
 
     <ImageButton
         android:id="@+id/passButton"
-        android:layout_width="75dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@drawable/pas"
+        android:src="@drawable/malepas"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image_view_die_1"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/image_view_die_2"
         app:layout_constraintTop_toBottomOf="@+id/rollButton"
         app:layout_constraintVertical_bias="0.05" />
 
     <ImageButton
         android:id="@+id/turnButton"
-        android:layout_width="75dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:background="@null"
@@ -117,7 +116,7 @@
         android:src="@drawable/obrot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/image_view_die_1"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/passButton"
         app:layout_constraintTop_toBottomOf="@+id/rollButton"
         app:layout_constraintVertical_bias="0.05" />
@@ -243,11 +242,11 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:scaleType="fitXY"
             android:layout_alignParentRight="true"
-
+            android:background="@null"
             app:srcCompat="@drawable/pauza" />
 
 
