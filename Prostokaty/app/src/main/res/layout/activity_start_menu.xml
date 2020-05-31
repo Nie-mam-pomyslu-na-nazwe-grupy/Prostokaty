@@ -8,23 +8,23 @@
     tools:context=".StartMenu">
 
     <ImageButton
-        android:id="@+id/graTurowa"
+        android:id="@+id/graLokalna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:layout_marginTop="100dp"
-        android:src="@drawable/gra" />
+        android:src="@drawable/gralokalna" />
 
     <ImageButton
-        android:id="@+id/Multiplayer"
+        android:id="@+id/graOnline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:layout_below="@id/graTurowa"
+        android:layout_below="@id/graLokalna"
         android:layout_marginTop="15dp"
-        android:src="@drawable/multiplayer" />
+        android:src="@drawable/graonline" />
 
     <ImageButton
         android:id="@+id/instrukcje"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:layout_below="@id/Multiplayer"
+        android:layout_below="@id/graOnline"
         android:layout_marginTop="15dp"
         android:src="@drawable/instrukcje" />
 

@@ -8,15 +8,15 @@
     tools:context=".SplashScreen">
 
 
-    <TextView
-        android:id="@+id/textView"
+
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PROSTOKĄTY"
-        android:textSize="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        />
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/prostokaty" />
 
     <TextView
         android:id="@+id/textView2"
@@ -25,7 +25,7 @@
         android:text="GRA"
         android:textSize="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/imageView"
         />
 
     <TextView
@@ -38,14 +38,15 @@
         android:layout_below="@id/textView2"
         />
 
-    <Button
+    <ImageButton
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Start Game" />
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/rozpocznij" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,6 +66,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"/>
+
+
 
 
 </RelativeLayout>

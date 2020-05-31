@@ -10,13 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private Button start;
+    private ImageButton start;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        start=(Button) findViewById(R.id.start);
+        start=(ImageButton) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

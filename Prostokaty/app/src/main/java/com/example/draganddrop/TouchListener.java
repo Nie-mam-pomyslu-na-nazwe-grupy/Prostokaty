@@ -35,11 +35,11 @@ public class TouchListener implements View.OnTouchListener{
 
 
         Rectangle rect = (Rectangle) view;
-        if(!rect.canMove){
+        if (!rect.canMove) {
             return true;
         }
 
-        boolean moved=false;
+        boolean moved = false;
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
@@ -54,11 +54,12 @@ public class TouchListener implements View.OnTouchListener{
 
             case MotionEvent.ACTION_MOVE:
                 //ustalenie nowych parametrow
-                int yDiff =  ( Math.round((motionEvent.getRawY() - yDelta)   / rect.grid ) * rect.grid  ) + topBoard%rect.grid ;; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
-                int xDiff = ( Math.round((motionEvent.getRawX() - xDelta)  / rect.grid ) * rect.grid ) + startBoard%rect.grid +10;
+                int yDiff = (Math.round((motionEvent.getRawY() - yDelta) / rect.grid) * rect.grid) + topBoard % rect.grid;
+                ; //ustawia zmienna odpowiedzialna za pozycje na iloraz szerokosci kratki(grid)
+                int xDiff = (Math.round((motionEvent.getRawX() - xDelta) / rect.grid) * rect.grid) + startBoard % rect.grid + 10;
 
-                if( yDiff >= topBoard && yDiff <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
-                        && xDiff >= startBoard  && xDiff <= startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  ) {
+                if (yDiff >= topBoard && yDiff <= topBoard + ((BdimY - rect.dimY) * rect.grid)
+                        && xDiff >= startBoard && xDiff <= startBoard + ((BdimX - rect.dimX + 1) * rect.grid)) {
 
                     lParams.topMargin = yDiff;
                     lParams.leftMargin = xDiff; //pozycja w którym jest palec
@@ -67,8 +68,7 @@ public class TouchListener implements View.OnTouchListener{
                     rect.yCoord = (yDiff - topBoard) / rect.grid;
 
 
-                }
-                else //jesli ruszamy nim poza plansza to nie snapuje do siatki
+                } else //jesli ruszamy nim poza plansza to nie snapuje do siatki
                 {
                     lParams.leftMargin = (int) (x - xDelta);
                     lParams.topMargin = (int) (y - yDelta);
@@ -80,31 +80,31 @@ public class TouchListener implements View.OnTouchListener{
             case MotionEvent.ACTION_UP:
                 //postawienie klocka
 
-                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ( (BdimY - rect.dimY  ) * rect.grid)
-                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <=  startBoard + ( (BdimX - rect.dimX + 1 ) * rect.grid)  )   {
+                if (((RelativeLayout.LayoutParams) view.getLayoutParams()).topMargin >= topBoard && lParams.topMargin <= topBoard + ((BdimY - rect.dimY) * rect.grid)
+                        && ((RelativeLayout.LayoutParams) view.getLayoutParams()).leftMargin >= startBoard && lParams.leftMargin <= startBoard + ((BdimX - rect.dimX + 1) * rect.grid)) {
 
                     Brick B = new Brick(rect.dimX, rect.dimY, engine.player[gracz]);//todo
 
                     //sprawdzanie czy mozemy postawic klocek w danym miejscu w relacji do reszty klockow w grze
-                    if (engine.canPlace(rect.xCoord, rect.yCoord, B)){
-                        engine.placeBrick(rect.xCoord, rect.yCoord, B );
+                    if (engine.canPlace(rect.xCoord, rect.yCoord, B)) {
+                        engine.placeBrick(rect.xCoord, rect.yCoord, B);
                         rect.canMove = false;
                         rect.setAlpha(1f);//zmienia przezroczystosc klocka na 100% podczas gdy sie nie rusza
-                        engine.player[gracz].setScore( rect.dimX * rect.dimY );
+                        engine.player[gracz].setScore(rect.dimX * rect.dimY);
                     }
 
-                    }//duży if
+                }//duży if
 
+        //motion event
 
-                }//motion event
+        rect.setLayoutParams(lParams);
 
-                rect.setLayoutParams(lParams);
-
-                break;
-        }
+             break;
+            //case postawienie klocka
+        }//switch
 
         return true;
-    }
-
-
+    }//ontouch
 }
+
+

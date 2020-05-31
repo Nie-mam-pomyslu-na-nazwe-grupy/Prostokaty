@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Instrukcje"></activity>
-        <activity android:name=".SplashScreen" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".PlayersNumber" />
         <activity android:name=".StartMenu" />
         <activity android:name=".Login" />
         <activity android:name=".Rooms" />
         <activity android:name=".Login" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,25 +9,25 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class StartMenu extends AppCompatActivity {
-private ImageButton graTurowa;
-private ImageButton Multiplayer;
+private ImageButton graLokalna;
+private ImageButton graOnline;
 private ImageButton instrukcje;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_menu);
 
-        graTurowa=(ImageButton) findViewById(R.id.graTurowa);
-        Multiplayer=(ImageButton) findViewById(R.id.Multiplayer);
+        graLokalna=(ImageButton) findViewById(R.id.graLokalna);
+        graOnline=(ImageButton) findViewById(R.id.graOnline);
         instrukcje=(ImageButton) findViewById(R.id.instrukcje);
-        graTurowa.setOnClickListener(new View.OnClickListener() {
+        graLokalna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPlayersNumber();
             }
         });
 
-        Multiplayer.setOnClickListener(new View.OnClickListener() {
+        graOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openLogin();

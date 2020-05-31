@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static int topBoard;
     public static int BdimX = 20;
     public static int BdimY = 30;
-    private Button rollButton, passButton;
+    private ImageButton rollButton, passButton;
     private ImageButton imageButton;
     private TextView rollText, score1Text, score2Text, score3Text, score4Text, passText1, passText2, passText3, passText4, gameOverText;
     
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //runda gry:
                 rollText = (TextView) findViewById(R.id.rollText);
-                rollButton = (Button) findViewById(R.id.rollButton);
+                rollButton = (ImageButton) findViewById(R.id.rollButton);
                 gameOverText = (TextView) findViewById(R.id.gameOverText);
 
                 rollButton.setOnClickListener(new View.OnClickListener() {
@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
                                 mostPoints++;
 
                                 gameOverText.setText("Game Over! \nPlayer " + whoWon + " is the survivor \nPlayer "+ mostPoints + " has highest score");
+                                gameOverText.bringToFront();
                             }
 
 
@@ -296,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 });//OnClickListener rollButton
 
                 //Rezygnowanie z klocka/warunek przegranej
-                passButton = (Button) findViewById(R.id.passButton);
+                passButton = (ImageButton) findViewById(R.id.passButton);
                 passButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
