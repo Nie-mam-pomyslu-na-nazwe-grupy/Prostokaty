@@ -9,13 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main2Activity" />
         <activity android:name=".Instrukcje" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlayersNumber" />
         <activity android:name=".StartMenu" />
-        <activity android:name=".Login" />
-        <activity android:name=".Rooms" />
         <activity android:name=".Login" />
         <activity
             android:name=".SplashScreen"

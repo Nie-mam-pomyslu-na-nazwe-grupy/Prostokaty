@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class StartMenu extends AppCompatActivity {
 private ImageButton graLokalna;
-private ImageButton graOnline;
+private ImageButton ranking;
 private ImageButton instrukcje;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ private ImageButton instrukcje;
         setContentView(R.layout.activity_start_menu);
 
         graLokalna=(ImageButton) findViewById(R.id.graLokalna);
-        graOnline=(ImageButton) findViewById(R.id.graOnline);
+        ranking=(ImageButton) findViewById(R.id.graOnline);
         instrukcje=(ImageButton) findViewById(R.id.instrukcje);
         graLokalna.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,7 +27,7 @@ private ImageButton instrukcje;
             }
         });
 
-        graOnline.setOnClickListener(new View.OnClickListener() {
+        ranking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openLogin();
@@ -49,7 +49,7 @@ private ImageButton instrukcje;
     }
 
     private void openLogin() {
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, ScoreBoard.class);
         startActivity(intent);
     }
 

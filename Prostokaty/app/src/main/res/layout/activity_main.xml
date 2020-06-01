@@ -207,6 +207,23 @@
         app:layout_constraintTop_toTopOf="@+id/popUpImage"
         app:layout_constraintVertical_bias="0.45" />
 
+    <ImageButton
+        android:id="@+id/gameOverButton"
+        android:layout_width="90dp"
+        android:background="@null"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/popUpImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/layout"
+        app:layout_constraintTop_toTopOf="@+id/popUpImage"
+        app:layout_constraintVertical_bias="0.45"
+        android:layout_marginTop="300dp"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/koniec"
+        />
+
     <ImageView
         android:id="@+id/popUpImage"
         android:layout_width="0dp"

@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
     public static int BdimX = 20;
     public static int BdimY = 30;
     private ImageButton rollButton, passButton, turnButton;
-    private ImageButton imageButton;
+    private ImageButton imageButton, gameOverButton;
     private TextView rollText, score1Text, score2Text, score3Text, score4Text, passText1, passText2, passText3, passText4, gameOverText;
     private ImageView popUpView;
-    
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
     //zmienne ktore chce uzyc w klasie wewnetrznej, wiec musza byc zadeklarowane przed OnCreate
     int turaGracza = 0;
     boolean firstPlaced = false;
@@ -339,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
         });//imagesquare post
 
+
     }//void oncreate
 
 
@@ -454,12 +459,28 @@ public class MainActivity extends AppCompatActivity {
             }
             mostPoints++;
 
+            rootNode=FirebaseDatabase.getInstance();
+            reference=rootNode.getReference("newscore");
+            reference.setValue(engine.player[mostPoints-1].getScore());
+
             popUpView = (ImageView) findViewById(R.id.popUpImage);
+            gameOverButton = (ImageButton) findViewById(R.id.gameOverButton);
             popUpView.setVisibility(View.VISIBLE);
+
 
             gameOverText.setText("Koniec Gry! \nGracz " + whoWon + " jest ostatnim ocalałym \nGracz "+ mostPoints + " ma najwięcej punktów");
             gameOverText.bringToFront();
+            gameOverButton.setVisibility(View.VISIBLE);
+            gameOverButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openMenu();
+                }
+            });
+
         }
+
+
 
         if(winner) return true;
         else return false;
