@@ -4,58 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerHorizontal="true"
     android:background="@drawable/tlo1"
     tools:context=".StartMenu">
 
+
     <ImageButton
         android:id="@+id/graLokalna"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@null"
         android:scaleType="fitXY"
         android:src="@drawable/gralokalna"
-        android:layout_width="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18" />
-
-    <ImageButton
-        android:id="@+id/graOnline"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:scaleType="fitXY"
-        android:src="@drawable/graonline"
-        app:layout_constraintBottom_toTopOf="@+id/instrukcje"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/graLokalna" />
+        app:layout_constraintVertical_bias="0.339" />
 
     <ImageButton
         android:id="@+id/instrukcje"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="fitXY"
         android:src="@drawable/instrukcje"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintVertical_bias="0.636" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

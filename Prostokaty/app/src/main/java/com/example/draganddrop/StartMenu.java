@@ -18,7 +18,6 @@ private ImageButton instrukcje;
         setContentView(R.layout.activity_start_menu);
 
         graLokalna=(ImageButton) findViewById(R.id.graLokalna);
-        ranking=(ImageButton) findViewById(R.id.graOnline);
         instrukcje=(ImageButton) findViewById(R.id.instrukcje);
         graLokalna.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,12 +26,6 @@ private ImageButton instrukcje;
             }
         });
 
-        ranking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLogin();
-            }
-        });
 
         instrukcje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,11 +38,6 @@ private ImageButton instrukcje;
 
     private void openInstrukcje() {
         Intent intent = new Intent(this, Instrukcje.class);
-        startActivity(intent);
-    }
-
-    private void openLogin() {
-        Intent intent = new Intent(this, ScoreBoard.class);
         startActivity(intent);
     }
 

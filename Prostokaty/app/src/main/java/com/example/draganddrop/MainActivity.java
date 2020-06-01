@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imageButton, gameOverButton;
     private TextView rollText, score1Text, score2Text, score3Text, score4Text, passText1, passText2, passText3, passText4, gameOverText;
     private ImageView popUpView;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
     //zmienne ktore chce uzyc w klasie wewnetrznej, wiec musza byc zadeklarowane przed OnCreate
     int turaGracza = 0;
     boolean firstPlaced = false;
@@ -459,13 +457,12 @@ public class MainActivity extends AppCompatActivity {
             }
             mostPoints++;
 
-            rootNode=FirebaseDatabase.getInstance();
-            reference=rootNode.getReference("newscore");
-            reference.setValue(engine.player[mostPoints-1].getScore());
 
             popUpView = (ImageView) findViewById(R.id.popUpImage);
             gameOverButton = (ImageButton) findViewById(R.id.gameOverButton);
             popUpView.setVisibility(View.VISIBLE);
+            popUpView.bringToFront();
+            gameOverButton.bringToFront();
 
 
             gameOverText.setText("Koniec Gry! \nGracz " + whoWon + " jest ostatnim ocalałym \nGracz "+ mostPoints + " ma najwięcej punktów");
